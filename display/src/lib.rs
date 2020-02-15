@@ -55,6 +55,17 @@ mod tests {
 use std::fmt::Debug;
 use std::any::Any;
 use std::any::type_name;
+use std::mem::size_of;
+
+/*------------------------------------------------------------- 
+   show type name on console
+   - expects T to implement Debug
+   - see #[define(Debug)] attributes, above 
+*/
+pub fn show_type<T: Any + Debug>(_value: &T) {
+    let name = type_name::<T>();
+    print!("\n  TypeId: {}, size: {}", name, size_of::<T>());
+}
 
 /*------------------------------------------------------------- 
    log type name and value to console
@@ -64,17 +75,17 @@ use std::any::type_name;
 pub fn log<T: Any + Debug>(value: &T) {
     let value_any = value as &dyn Any;
     let name = type_name::<T>();
-    println!("TypeId: {}", name);
+    print!("\n  TypeId: {}, size: {}", name, size_of::<T>());
 
     // Try to convert our value to a `String`. If successful, we want to
     // output the String`'s length as well as its value. If not, it's a
     // different type: just print it out unadorned.
     match value_any.downcast_ref::<String>() {
         Some(as_string) => {
-            println!(" value: String ({}): {}\n", as_string.len(), as_string);
+            print!("\n  value:  String ({}): {}", as_string.len(), as_string);
         }
         None => {
-            println!(" value: {:?}\n", value);
+            print!("\n  value:  {:?}", value);
         }
     }
 }
@@ -89,9 +100,9 @@ pub fn log<T: Any + Debug>(value: &T) {
    Display underlined title on console
 */
 pub fn title(msg: String) {
-    println!("  {}", msg);
+    print!("\n  {}", msg);
     let s = std::iter::repeat('-').take(msg.len() + 2).collect::<String>();
-    println!(" {}\n", s);
+    print!("\n {}", s);
 }
 /*-- push a single newline to console --*/
 
