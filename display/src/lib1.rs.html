@@ -1,0 +1,119 @@
+<pre>///////////////////////////////////////////////////////////////
+// display::main.rs tests - Demonstrate display types        //
+//                                                           //
+// Jim Fawcett, https://JimFawcett.github.io, 14 Feb 2020    //
+///////////////////////////////////////////////////////////////
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[derive(Debug)]
+    struct Point {
+        x: f64,
+        y: f64,
+        z: f64,
+    }
+    #[test]
+    /*
+       Library doesn't write to console, so all this tests is that
+       no panic occurred.  See test_display for useful tests.
+    */
+    fn test_types() {
+        title("test types".to_string());
+        let mut str = String::new();
+        str.push_str("a string");
+        log(&amp;str);
+        let an_i8: i8 = 100;
+        log(&amp;an_i8);
+        let mut vi : Vec&lt;i32&gt; = Vec::new();
+        vi.push(-1);
+        vi.push(0);
+        vi.push(1);
+        log(&amp;vi);
+        #[derive(Debug)]
+        enum Test { Test1, Test2, };
+        log(&amp;Test::Test1);
+        log(&amp;Test::Test2);
+        let point = Point { x:1.0, y:1.5, z:2.0 };
+        log(&amp;point);
+        assert_eq!(1, 1);
+    }
+}
+
+
+/////////////////////////////////////////////////////////////
+// display::main.rs - Demonstrate display types            //
+//                                                         //
+// Jim Fawcett, https://JimFawcett.github.io, 14 Feb 2020  //
+/////////////////////////////////////////////////////////////
+/*
+   log and do_work are derived from:
+   https://doc.rust-lang.org/beta/std/any/index.html
+
+*/
+use std::fmt::Debug;
+use std::any::Any;
+use std::any::type_name;
+use std::mem::size_of;
+
+/*------------------------------------------------------------- 
+   show type name on console
+   - expects T to implement Debug
+   - see #[define(Debug)] attributes, above 
+*/
+pub fn show_type&lt;T: Any + Debug&gt;(_value: &amp;T) {
+    let name = type_name::&lt;T&gt;();
+    print!("\n  TypeId: {}, size: {}", name, size_of::&lt;T&gt;());
+}
+
+/*------------------------------------------------------------- 
+   log type name and value to console
+   - expects T to implement Debug
+   - see #[define(Debug)] attributes, above 
+*/
+pub fn log&lt;T: Any + Debug&gt;(value: &amp;T) {
+    let value_any = value as &amp;dyn Any;
+    let name = type_name::&lt;T&gt;();
+    print!("\n  TypeId: {}, size: {}", name, size_of::&lt;T&gt;());
+
+    // Try to convert our value to a `String`. If successful, we want to
+    // output the String`'s length as well as its value. If not, it's a
+    // different type: just print it out unadorned.
+    match value_any.downcast_ref::&lt;String&gt;() {
+        Some(as_string) =&gt; {
+            print!("\n  value:  String ({}): {}", as_string.len(), as_string);
+        }
+        None =&gt; {
+            print!("\n  value:  {:?}", value);
+        }
+    }
+}
+
+// This function wants to log its parameter out prior to doing work with it.
+// fn do_work&lt;T: Any + Debug&gt;(value: &amp;T) {
+//     log(value);
+//     // ...do some other work
+// }
+
+/*-------------------------------------------------------------
+   Display underlined title on console
+*/
+pub fn title(msg: String) {
+    print!("\n  {}", msg);
+    let s = std::iter::repeat('-').take(msg.len() + 2).collect::&lt;String&gt;();
+    print!("\n {}", s);
+}
+/*-- push a single newline to console --*/
+
+pub fn putline() {
+    println!("\n");
+}
+/*-- pust n newlines to console --*/
+
+pub fn putlinen(n: usize) {
+    let s = std::iter::repeat('\n').take(n).collect::&lt;String&gt;();
+    println!("{}", s);
+}
+
+</pre>
