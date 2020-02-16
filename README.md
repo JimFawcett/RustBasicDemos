@@ -7,6 +7,9 @@ I am starting to look seriously at Rust, and will be writing lots of demo code t
 For now, the demos are:
 <ol>
   <li>
+    <strong>data_types</strong> includes simple probes for each of the Rust data types.
+  </li>
+  <li>
     <strong>display library</strong> provides functions to display the type and value of a variable passed as an argument.
     Libraries can&apos;t write to the console, so library tests are deferred to a separate binary.
   </li>
