@@ -2,9 +2,11 @@ mod formatstructure;
 mod dblformats;
 mod debugformats;
 mod demodrop;
+mod env_probe;
+mod probe_struct;
 
 fn main() {
 
-    demodrop::run();
+    probe_struct::run();
     print!("\n\n");
 }

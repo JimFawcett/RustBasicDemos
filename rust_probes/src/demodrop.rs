@@ -85,6 +85,7 @@ pub fn run() {
     
     print!("\n  -- demo copies, moves, clones, and drops --\n");
 
+
     let dint1 : i32 = 3;
     print!("\n  dint1 = {:?} - original", dint1);
 
@@ -106,6 +107,38 @@ pub fn run() {
     let s3 = s2.clone();
     print!("\n  s3 = {:?} - a clone", s3);
     print!("\n  s2 = {:?} - original, s2, still valid\n", s2);
+
+    /*-- demo string references --*/
+
+    ///////////////////////////////////////////////////////
+    // compiles with some rule violations.  Compile fails
+    // when we attempt to use the illegal references.
+    // The rules are:
+    // - may have any number of active immutable references
+    //   provided there are no mutable references
+    // - may only have one mutable reference
+    //-----------------------------------------------------
+    let mut s1 = String::from("s1\'s value");
+    print!("\n  s1 = \"{}\" original", s1);
+    let s1r = &mut s1;
+    print!("\n  s1r = &mut s1 = \"{}\" - ref to original", s1r);
+    s1r.push_str(" more stuff");
+    print!("\n  s1r = \"{}\" - mutated value", s1r);
+    print!("\n  s1 = \"{}\" - mutated but still valid", s1);
+    let s2r = &s1;
+    print!("\n  s2r = &s1 = \"{}\" - ref value", s2r);
+    let s3r = &mut s1;
+    print!("\n  s3r = &mut s1 = \"{}\" - ref value", s3r);
+    print!("\n  s1 = \"{}\" - mutated but still valid", s1);
+
+    ///////////////////////////////////////////////////////
+    // Fails to compile because there is another reference 
+    // to s1
+    //----------------------------------------------------
+    // s3r.push_str(" - try illegal move");
+    // print!("\n  s3r = {:?} - after illegal move",s3r);
+    
+    print!("\n");
 
     /*-- demo struct copy --*/
 
