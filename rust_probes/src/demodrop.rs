@@ -86,13 +86,26 @@ pub fn run() {
     print!("\n  -- demo copies, moves, clones, and drops --\n");
 
     let dint1 : i32 = 3;
-    print!("\n  dint1 = {:?}", dint1);
+    print!("\n  dint1 = {:?} - original", dint1);
 
     // ints are copyable so copy here
     let dint2 : i32 = dint1;
-    print!("\n  dint2 = {:?}", dint2);
+    print!("\n  dint2 = {:?} - copy", dint2);
     // so dint1 still valid
-    print!("\n  dint1 = {:?}", dint1);
+    print!("\n  dint1 = {:?} - original, still valid\n", dint1);
+
+    let s1 : String = "string for demo move".to_string();
+    print!("\n  s1 = {:?} - original", s1);
+ 
+    let s2 = s1;
+    print!("\n  s2 = {:?} - a move, original invalid", s2);
+    
+    // fails to compile as s1 was source of move so invalid
+    //print!("\n  s1 = {:?} - original", s1);
+
+    let s3 = s2.clone();
+    print!("\n  s3 = {:?} - a clone", s3);
+    print!("\n  s2 = {:?} - original, s2, still valid\n", s2);
 
     /*-- demo struct copy --*/
 
@@ -108,7 +121,7 @@ pub fn run() {
     let dd4 = dd1.clone();
     print!("\n  dd4 = {:?} - a clone", dd4);
 
-    print!("\n  dd1 = {:?} - original still valid", dd1);
+    print!("\n  dd1 = {:?} - original still valid\n", dd1);
 
     /*-- demo struct move --*/
 
@@ -117,7 +130,7 @@ pub fn run() {
 
     // structs with string fields are not copyable so move here
     let dd2 = dd1;
-    print!("\n  dd2 = {:?} - a move", dd2);
+    print!("\n  dd2 = {:?} - a move, original invalid\n", dd2);
 
     // This fails to compile because dd1 was moved from
     // let dd3 = dd1;
