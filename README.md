@@ -10,6 +10,23 @@ For now, the demos are:
     <strong>data_types</strong> includes simple probes for each of the Rust data types.
   </li>
   <li>
+    <strong>rust_probes</stron> demos for
+    <ul>
+      <li>
+        variations on print! formatting
+      </li>
+      <li>
+        std::Debug formatting for Rust types
+      </li>
+      <li>
+        formatting floats showing use of format flags for exp notation, precision, alignment in field, ...
+      </li>
+      <li>
+        copy, move, clone, Drop trait, Clone trait.  Includes simple but useful module demo.
+      </li>
+    </ul>
+  </li>
+  <li>
     <strong>display library</strong> provides functions to display the type and value of a variable passed as an argument.
     Libraries can&apos;t write to the console, so library tests are deferred to a separate binary.
   </li>
