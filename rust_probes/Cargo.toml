@@ -1,5 +1,5 @@
 [package]
-name = "test_formats"
+name = "test_rust"
 version = "0.1.0"
 authors = ["James W. Fawcett <jfawcett@twcny.rr.com>"]
 edition = "2018"
