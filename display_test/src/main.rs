@@ -13,7 +13,8 @@
   library just like any other application.
 */
 
-extern crate display;
+//extern crate display;
+#[allow(unused_imports)]
 use display::{ putline, title, log, putlinen };
 
 #[derive(Debug)]
@@ -24,7 +25,6 @@ struct Point {
 }
 
 fn main() {
-    putline();
     title("test types".to_string());
     let mut str = String::new();
     str.push_str("a string");
