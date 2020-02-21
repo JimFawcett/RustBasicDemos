@@ -1,8 +1,11 @@
 // mode probe_struct
 
-#[derive(Debug, Copy, Clone)]  // compiler creates Debug, Copy, Clone
-pub struct DemoCopy {          // Debug and Copy are called implicitly
-    pub f:f64,                 // Clone must be called explicitly.
+#[derive(Debug, Copy, Clone)]
+  // compiler creates Debug, Copy, Clone Traits
+  // Debug and Copy are called implicitly
+  // clone must be called explicitly
+pub struct DemoCopy {
+    pub f:f64,
 }
 impl DemoCopy {
     #[allow(dead_code)]
@@ -120,7 +123,7 @@ pub fn run() {
     print!("\n  ref sccr makes use of mut ref msccr illegal");
 
     ////////////////////////////////////////////////
-    // Fails to compile because there is another
+    // Below fails to compile because there is another
     // reference: sccr
     //msccr.s.push_str(" modified");
     //print!("\n  msccr = {:?} - modified",msccr);
