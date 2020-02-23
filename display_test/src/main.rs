@@ -13,7 +13,6 @@
   library just like any other application.
 */
 
-//extern crate display;
 #[allow(unused_imports)]
 use display::{ putline, title, log, putlinen };
 
