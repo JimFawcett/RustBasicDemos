@@ -1,47 +1,3 @@
-///////////////////////////////////////////////////////////////
-// display::main.rs tests - Demonstrate display types        //
-//                                                           //
-// Jim Fawcett, https://JimFawcett.github.io, 14 Feb 2020    //
-///////////////////////////////////////////////////////////////
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[derive(Debug)]
-    struct Point {
-        x: f64,
-        y: f64,
-        z: f64,
-    }
-    #[test]
-    /*
-       Library doesn't write to console, so all this tests is that
-       no panic occurred.  See test_display for useful tests.
-    */
-    fn test_types() {
-        title("test types".to_string());
-        let mut str = String::new();
-        str.push_str("a string");
-        log(&str);
-        let an_i8: i8 = 100;
-        log(&an_i8);
-        let mut vi : Vec<i32> = Vec::new();
-        vi.push(-1);
-        vi.push(0);
-        vi.push(1);
-        log(&vi);
-        #[derive(Debug)]
-        enum Test { Test1, Test2, };
-        log(&Test::Test1);
-        log(&Test::Test2);
-        let point = Point { x:1.0, y:1.5, z:2.0 };
-        log(&point);
-        assert_eq!(1, 1);
-    }
-}
-
-
 /////////////////////////////////////////////////////////////
 // display::main.rs - Demonstrate display types            //
 //                                                         //
@@ -116,3 +72,45 @@ pub fn putlinen(n: usize) {
     println!("{}", s);
 }
 
+///////////////////////////////////////////////////////////////
+// display::main.rs tests - Demonstrate display types        //
+//                                                           //
+// Jim Fawcett, https://JimFawcett.github.io, 14 Feb 2020    //
+///////////////////////////////////////////////////////////////
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[derive(Debug)]
+    struct Point {
+        x: f64,
+        y: f64,
+        z: f64,
+    }
+    #[test]
+    /*
+       Library doesn't write to console, so all this tests is that
+       no panic occurred.  See test_display for useful tests.
+    */
+    fn test_types() {
+        title("test types".to_string());
+        let mut str = String::new();
+        str.push_str("a string");
+        log(&str);
+        let an_i8: i8 = 100;
+        log(&an_i8);
+        let mut vi : Vec<i32> = Vec::new();
+        vi.push(-1);
+        vi.push(0);
+        vi.push(1);
+        log(&vi);
+        #[derive(Debug)]
+        enum Test { Test1, Test2, };
+        log(&Test::Test1);
+        log(&Test::Test2);
+        let point = Point { x:1.0, y:1.5, z:2.0 };
+        log(&point);
+        assert_eq!(1, 1);
+    }
+}

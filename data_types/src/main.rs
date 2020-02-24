@@ -18,7 +18,6 @@
    - Vec<T>: Vec<i32>::new();
    - HashMap<Key, Value>:cl HashMap<String, int>::new();
 */
-extern crate display;
 #[allow(unused_imports)]
 use display::{putline, title, show_type, log, putlinen};
 use std::fmt::{Debug, Display};
@@ -133,6 +132,25 @@ fn main() {
     separator();
     let demo = String::from("a demo String");
     putln(&"let demo = String::from(\"a demo String\");");
+    log(&demo);
+
+    /* Rust references:  */
+    
+    separator();
+    let mut demo = String::from("a demo String");
+    putln(&"let demo = String::from(\"a demo String\");");
+    log(&demo);
+    let rdemo = &mut demo;
+    putln(&"let rdemo = &mut demo;");
+    putln(&"redemo.push_str(\" more stuff\")");
+    rdemo.push_str(" more stuff");
+    // compile fails - owner can't mutate until borrow ends
+    // demo.push_str(" still more stuff");
+    // This is borrow because log takes a ref and that's
+    // what rdemo is.
+    log(rdemo);  // borrow ends when function returns
+    putln(&"demo.push_str(\" still more stuff\"");
+    demo.push_str(" still more stuff");
     log(&demo);
 
     /* Rust structs: struct Point { x:f64, y:f64, z:f64, t:} */
