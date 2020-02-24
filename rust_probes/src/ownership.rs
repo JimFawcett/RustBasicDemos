@@ -30,6 +30,8 @@ pub fn run() {
     let r = &mut j;   // r borrows j, e.g., reference, no copy
     *r += 2;          // j is mutated
     print!("\n  i = {}, j = {}", i, j);
+    j += 2;
+    print!("\n  i = {}, j = {}", i, j);
 
     let arr = [1, 2, 3];
     print!("\n  arr = {:?}", arr);
@@ -96,7 +98,23 @@ pub fn run() {
     print!("\n  t = {}", t);
     // print!("\n  s = {}", s);              // can't use s, been moved
 
+    /*-- string borrowing --*/
     t = "a new string value".to_string();    // original contents dropped
+    print!("\n  t = {}", t);
+    let rt = &mut t;
+    // compile fails - 2nd mutable ref
+    //   let rrt = &mut t;
+    // compile fails - already have &mut t
+    //    let rrt = &t;
+    rt.push_str(" with more stuff");  // ok
+    // compile fails - owner mutated while borrow is active
+    //   t.push_str(" and still more stuff");
+    //   rt.push_str(" and still more");
+    // ok - owner mutated while borrow is active but borrow not used
+    t.push_str(" and still more stuff");
+    // uncomment the next line and previous line will fail to compile
+    //   rt.push_str(" and still more");
+    t.push_str(" and again more stuff");
     print!("\n  t = {}", t);
 
     /*-- tuple with string member --*/

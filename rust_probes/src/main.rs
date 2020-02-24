@@ -9,6 +9,6 @@ mod types;
 
 fn main() {
 
-    types::run();
+    ownership::run();
     print!("\n\n");
 }
