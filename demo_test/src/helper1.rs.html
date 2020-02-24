@@ -1,0 +1,10 @@
+<pre>pub fn say() {
+    print!("\n  hello from helper");
+}
+
+// Including a main function is not a good idea
+// but doesn't seem to do any harm, even if pub.
+#[allow(dead_code)]
+fn main() {
+    print!("\n  hello world");
+}</pre>

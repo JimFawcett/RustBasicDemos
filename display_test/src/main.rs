@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////////
-// test_display::main.rs - test display library            //
+// display_test::main.rs - test display library            //
 //                                                         //
 // Jim Fawcett, https://JimFawcett.github.io, 14 Feb 2020  //
 /////////////////////////////////////////////////////////////

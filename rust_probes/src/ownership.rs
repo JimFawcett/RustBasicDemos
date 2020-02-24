@@ -1,4 +1,9 @@
-// ownership.rs
+/////////////////////////////////////////////////////////////
+// ownership.rs - demonstrates Rusts ownership rules       //
+//                                                         //
+// Jim Fawcett, https://JimFawcett.github.io, 24 Feb 2020  //
+/////////////////////////////////////////////////////////////
+
 use std::fmt::{Debug};
 
 /*-- will use to show borrow of argument --*/

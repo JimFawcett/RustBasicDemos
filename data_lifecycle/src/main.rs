@@ -1,3 +1,11 @@
+/////////////////////////////////////////////////////////////
+// data_lifecycle::main.rs - demonstrate object life cycle //
+//                                                         //
+// work in progress - not ready for prime time             //
+// - doesn't yet do what I want to illustrate              //
+// Jim Fawcett, https://JimFawcett.github.io, 24 Feb 2020  //
+/////////////////////////////////////////////////////////////
+
 #[allow(dead_code)]
 fn show_copy() {
     print!("\n  copied");

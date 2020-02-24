@@ -1,4 +1,8 @@
-// mode probe_struct
+/////////////////////////////////////////////////////////////
+// probe_struct.rs - demonstrate structs, polymorphism     //
+//                                                         //
+// Jim Fawcett, https://JimFawcett.github.io, 24 Feb 2020  //
+/////////////////////////////////////////////////////////////
 
 #[derive(Debug, Copy, Clone)]
   // compiler creates Debug, Copy, Clone Traits

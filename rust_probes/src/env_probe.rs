@@ -1,4 +1,8 @@
-//mod env_probe;
+///////////////////////////////////////////////////////////
+// env_probe.rs - demo access environment                //
+//                                                       //
+// Jim Fawcett, https://JimFawcett.github.io, 2 Feb 2020 //
+///////////////////////////////////////////////////////////
 
 use std::env;
 

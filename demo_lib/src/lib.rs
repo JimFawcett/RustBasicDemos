@@ -1,20 +1,16 @@
 /////////////////////////////////////////////////////////////
-// main.rs - executes named module                         //
+// demo_lib::lib.rs - library package for demo             //
 //                                                         //
 // Jim Fawcett, https://JimFawcett.github.io, 24 Feb 2020  //
 /////////////////////////////////////////////////////////////
 
-mod formatstructure;
-mod dblformats;
-mod debugformats;
-mod demodrop;
-mod env_probe;
-mod probe_struct;
-mod ownership;
-mod types;
-
-fn main() {
-
-    types::run();
-    print!("\n\n");
+pub fn libsay() {
+    print!("\n  hello from demo_lib");
+}
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        assert_eq!(2 + 2, 4);
+    }
 }

@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////////
-// display::main.rs - Demonstrate display types            //
+// display::lib.rs - Demonstrate display types             //
 //                                                         //
 // Jim Fawcett, https://JimFawcett.github.io, 14 Feb 2020  //
 /////////////////////////////////////////////////////////////

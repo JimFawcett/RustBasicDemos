@@ -1,4 +1,9 @@
-//mod types;
+/////////////////////////////////////////////////////////////
+// types.rs - type declarations and type inference         //
+//                                                         //
+// Jim Fawcett, https://JimFawcett.github.io, 24 Feb 2020  //
+/////////////////////////////////////////////////////////////
+
 use std::fmt::{Debug};
 
 #[allow(dead_code)]

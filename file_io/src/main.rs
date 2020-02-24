@@ -1,11 +1,14 @@
-////////////////////////////////////////////////////////////
-// try_std.rs - Test some of the std namespace facilities
-//
-// Test:
-// - std::env::current_dir()
-// - std::path::Path
-// - std::fs::File::open
-// - std::String
+/////////////////////////////////////////////////////////////
+// file_io::main.rs - Test some std namespace facilities   //
+//                                                         //
+// Test:                                                   //
+// - std::env::current_dir()                               //
+// - std::path::Path                                       //
+// - std::fs::File::open                                   //
+// - std::String                                           //
+//                                                         //
+// Jim Fawcett, https://JimFawcett.github.io, 24 Feb 2020  //
+/////////////////////////////////////////////////////////////
 
 use std::env;
 use std::io::prelude::*;
