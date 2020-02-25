@@ -53,23 +53,46 @@ pub fn log<T: Any + Debug>(value: &T) {
 // }
 
 /*-------------------------------------------------------------
-   Display underlined title on console
+   Display underlined main title on console
+*/
+pub fn main_title(msg: &str) {
+    print!("\n  {}", msg);
+    let s = std::iter::repeat('=').take(msg.len() + 2).collect::<String>();
+    print!("\n {}", s);
+}
+/*-------------------------------------------------------------
+   Display underlined sub title on console
+*/
+pub fn sub_title(msg: &str) {
+    print!("\n  {}", msg);
+    let s = std::iter::repeat('-').take(msg.len() + 2).collect::<String>();
+    print!("\n {}", s);
+}
+/*-------------------------------------------------------------
+   Display underlined sub title on console - depricated
 */
 pub fn title(msg: String) {
     print!("\n  {}", msg);
     let s = std::iter::repeat('-').take(msg.len() + 2).collect::<String>();
     print!("\n {}", s);
 }
+/*-------------------------------------------------------------
+   Display message and value on console
+*/
+pub fn show<T: Debug>(msg:&str, t:&T) {
+  print!("\n  {}{:?}", msg, t);
+}
+
 /*-- push a single newline to console --*/
 
 pub fn putline() {
-    println!("\n");
+    print!("\n");
 }
 /*-- pust n newlines to console --*/
 
 pub fn putlinen(n: usize) {
     let s = std::iter::repeat('\n').take(n).collect::<String>();
-    println!("{}", s);
+    print!("{}", s);
 }
 
 ///////////////////////////////////////////////////////////////
@@ -94,7 +117,7 @@ mod tests {
        no panic occurred.  See test_display for useful tests.
     */
     fn test_types() {
-        title("test types".to_string());
+        main_title("test types");
         let mut str = String::new();
         str.push_str("a string");
         log(&str);
@@ -112,5 +135,6 @@ mod tests {
         let point = Point { x:1.0, y:1.5, z:2.0 };
         log(&point);
         assert_eq!(1, 1);
+        sub_title("that's all folks!");
     }
 }

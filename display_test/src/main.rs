@@ -14,7 +14,7 @@
 */
 
 #[allow(unused_imports)]
-use display::{ putline, title, log, putlinen };
+use display::{ putline, title, main_title, sub_title, log, putlinen };
 
 #[derive(Debug)]
 struct Point {
@@ -25,6 +25,7 @@ struct Point {
 
 fn main() {
     title("test types".to_string());
+    main_title("test types");
     let mut str = String::new();
     str.push_str("a string");
     log(&str);
@@ -41,5 +42,7 @@ fn main() {
     log(&Test::Test2);
     let point = Point { x:1.0, y:1.5, z:2.0 };
     log(&point);
-    putlinen(1);
+    putline();
+    sub_title("That's all folks!");
+    putlinen(2);
 }
