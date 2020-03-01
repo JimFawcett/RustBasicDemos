@@ -14,7 +14,10 @@
 */
 
 #[allow(unused_imports)]
-use display::{ putline, title, main_title, sub_title, log, putlinen };
+use display::{ 
+  putline, title, main_title, sub_title, 
+  log, show_type, show_value, putlinen 
+};
 
 #[derive(Debug)]
 struct Point {
@@ -29,6 +32,8 @@ fn main() {
     let mut str = String::new();
     str.push_str("a string");
     log(&str);
+    show_type(&str);
+    show_value(&str);
     let an_i8: i8 = 100;
     log(&an_i8);
     let mut vi : Vec<i32> = Vec::new();

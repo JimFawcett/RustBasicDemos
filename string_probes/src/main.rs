@@ -5,29 +5,26 @@
 /////////////////////////////////////////////////////////////
 
 #[allow(unused_imports)]
-use display::{ log, show, putline, putlinen, main_title, sub_title };
+use display::{ 
+  log, slog, show, show_type, show_value, 
+  putline, putlinen, main_title, sub_title 
+};
 #[allow(unused_imports)]
 use std::fmt::{ Debug, Display };
-#[allow(unused_imports)]
-use std::any::Any;
-use std::any::type_name;
-use std::mem::size_of;
 ///////////////////////////////
 // for later
 // #[allow(unused_imports)]
 // use std::ffi::OsString;
 
-pub fn slog<T: Debug>(value: &T) {
-  let name = type_name::<T>();
-  print!("\n  TypeId: {}, size: {}", name, size_of::<T>());
-  print!("\n  value:  {:?}", value);
-}
 /*-----------------------------------------------------------
    Note:
    Strings hold utf8 characters, which vary in size, so you
    you can't directly index String instances.
 */
-
+#[allow(dead_code)]
+pub fn at(s:&String, i:usize) -> char {
+  s.chars().nth(i).unwrap()
+}
 /*-----------------------------------------------------------
    note: 
    - order n, as str chars are utf8, e.g., from 1 to 5 bytes
@@ -35,23 +32,54 @@ pub fn slog<T: Debug>(value: &T) {
    - see below for another, not much better way
 */
 #[allow(dead_code)]
-fn vectorize(s: &str) -> Vec<char> {
+pub fn vectorize(s: &str) -> Vec<char> {
   s.chars().collect::<Vec<char>>()
 }
 /*-- note: order n, from vectorize --*/
 #[allow(dead_code)]
-fn get_char(s:&str, i:usize) -> char {
+pub fn get_char(s:&str, i:usize) -> char {
     vectorize(s)[i]
 }
 /*-- stringize - order n --*/
 #[allow(dead_code)]
-fn stringize(v: &Vec<char>) -> String {
+pub fn stringize(v: &Vec<char>) -> String {
   return v.into_iter().collect()
 }
 
 fn main() {
 
     main_title("string_probes");
+    putline();
+
+    /*-- char --*/
+
+    let v:Vec<char> = vec!['R', 'u', 's', 't'];
+    log(&v);
+    log(&'R');
+    putline();
+
+    /*-- String --*/
+    let ch:u8 = 'a' as u8;
+    log(&ch);
+    show("char is ", &(ch as char));
+    putline();
+
+    let s:String = String::from("Rust");
+    log(&s);
+    let i:usize = 2;
+    let ch = at(&s, i);
+    print!("\n  in string \"{}\", char at {} is {}", &s, i, ch);
+    putline();
+
+    let s1 = s.clone();
+    let v:Vec<u8> = Vec::from(s1);
+    slog(&v[0]);
+    show("vec from string",&v);
+
+    /*-- str --*/
+    let s_slice = &s[..];
+    slog(&s_slice);
+    show("s_slice = ", &s_slice);
     putline();
 
     /*-- create string and mutate --*/
@@ -91,8 +119,8 @@ fn main() {
         */
         /*-- slices are non-owning views and are borrows of s --*/
         let slice_all = &s;
-        show("slice_all = ", &slice_all);
         slog(&slice_all);
+        show("slice_all = ", &slice_all);
         putline();
 
         let third = &s[2..3];       // string slice with one char
@@ -100,6 +128,7 @@ fn main() {
         show("third = ",&third);
         putline();
 
+        /*-- this works for utf-8 encoding --*/
         let ch = third.chars().nth(0);  // 
         log(&ch);
         match ch {

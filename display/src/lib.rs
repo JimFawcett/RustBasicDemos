@@ -14,15 +14,35 @@ use std::any::type_name;
 use std::mem::size_of;
 
 /*------------------------------------------------------------- 
+   show value on console
+   - expects T to implement Debug
+   - see #[define(Debug)] attributes, above 
+*/
+pub fn show_value<T: Debug>(value: &T) {
+    print!("\n  value: {:?}", value);
+}
+
+/*------------------------------------------------------------- 
    show type name on console
    - expects T to implement Debug
    - see #[define(Debug)] attributes, above 
 */
-pub fn show_type<T: Any + Debug>(_value: &T) {
+pub fn show_type<T: Debug>(_value: &T) {
     let name = type_name::<T>();
     print!("\n  TypeId: {}, size: {}", name, size_of::<T>());
 }
 
+/*------------------------------------------------------------- 
+   show type name and value on console
+   - expects T to implement Debug
+   - see #[define(Debug)] attributes, above 
+*/
+pub fn slog<T: Debug>(value: &T) {
+    let name = type_name::<T>();
+    print!("\n  TypeId: {}, size: {}", name, size_of::<T>());
+    print!("\n  value:  {:?}", value);
+  }
+  
 /*------------------------------------------------------------- 
    log type name and value to console
    - expects T to implement Debug
@@ -120,7 +140,8 @@ mod tests {
         main_title("test types");
         let mut str = String::new();
         str.push_str("a string");
-        log(&str);
+        show_type(&str);
+        show_value(&str);
         let an_i8: i8 = 100;
         log(&an_i8);
         let mut vi : Vec<i32> = Vec::new();
