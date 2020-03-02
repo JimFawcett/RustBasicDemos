@@ -19,7 +19,9 @@
    - HashMap<Key, Value>:cl HashMap<String, int>::new();
 */
 #[allow(unused_imports)]
-use display::{putline, title, show_type, log, putlinen};
+use display::{
+    putline, title, show_type, show_value, log, slog, putlinen
+};
 use std::fmt::{Debug, Display};
 use std::any::Any;
 
@@ -144,15 +146,32 @@ fn main() {
     putln(&"let rdemo = &mut demo;");
     putln(&"redemo.push_str(\" more stuff\")");
     rdemo.push_str(" more stuff");
-    // compile fails - owner can't mutate until borrow ends
+    // compile fails - this is attemp to make second
+    // mutable borrow because push_str takes &self
     // demo.push_str(" still more stuff");
-    // This is borrow because log takes a ref and that's
-    // what rdemo is.
-    log(rdemo);  // borrow ends when function returns
+    log(rdemo);
     putln(&"demo.push_str(\" still more stuff\"");
+    // this call succeeds only because rdemo is not used below call
     demo.push_str(" still more stuff");
     log(&demo);
+    // log(rdemo);  // if this call is uncommented both calls above fail
+    putline();
 
+    /* attempt to mutate after borrow */
+
+    let mut s = String::from("s is owner");
+    slog(&s);
+    {
+        let rs = &s;  // borrow s
+        // statement below fails to compile
+        // owner can't mutate after borrow 
+        // s += " with stuff";
+        slog(&rs);
+    }  // borrow ends here
+    s += " with stuff";
+    slog(&s);
+    putline();
+    
     /* Rust structs: struct Point { x:f64, y:f64, z:f64, t:} */
     
     separator();
@@ -192,6 +211,14 @@ fn main() {
     demo.insert("two".to_string(), 2);
     putln(&"let mut demo :HashMap<String, i32> = HashMap::new();");
     log(&demo);
+    putline();
+    
+    /* type aliases */
 
+    separator();
+    type PointF = (f64, f64, f64);
+    type VecPoint = Vec<PointF>;
+    let vp: VecPoint = vec![(1.0, 1.5, 2.0), (1.0, -1.5, 2.0)];
+    log(&vp);
     putlinen(2);
 }
