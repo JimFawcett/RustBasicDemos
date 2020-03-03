@@ -11,11 +11,23 @@ use display::{
 };
 #[allow(unused_imports)]
 use std::fmt::{ Debug, Display };
+
 ///////////////////////////////
 // for later
 // #[allow(unused_imports)]
 // use std::ffi::OsString;
 
+fn put<T>(t:T) where T:Display {
+  print!("{}", t);
+}
+
+fn putdb<T>(t:T) where T:Debug {
+  print!("{:?}", t);
+}
+
+fn put_str(s:&String) {
+  print!("{}",s);
+}
 /*-----------------------------------------------------------
    Note:
    Strings hold utf8 characters, which vary in size, so you
@@ -35,7 +47,7 @@ pub fn at(s:&String, i:usize) -> char {
 pub fn vectorize(s: &str) -> Vec<char> {
   s.chars().collect::<Vec<char>>()
 }
-/*-- note: order n, from vectorize --*/
+/*-- note: order n, from vectorize -- prefer at, above --*/
 #[allow(dead_code)]
 pub fn get_char(s:&str, i:usize) -> char {
     vectorize(s)[i]
@@ -78,6 +90,21 @@ fn main() {
     slog(&v[0]);
     show("vec from string",&v);
     putline();
+
+    /*----------------------------------------------------- 
+       Note that Windows does not display utf-8 correctly
+       in any of its terminals, e.g., cmd, x64 Native Tools,
+       Powershell, ..., so these will only display correctly
+       on Linux systems, and apple??
+    */
+    let mut s2 = String::new();
+    s2.push_str("\u{1F600}");
+    s2.push('\u{1F601}');
+    s2.push('\u{1F602}');
+    s2.push('\u{1F609}');
+    print!("\n  {}", s2);
+    putline();
+    print!("\n  {}", '\u{1F601}');
     
     /*-- str --*/
 
@@ -172,8 +199,35 @@ fn main() {
     }   // elem borrow ends here
 
     s.push('Z');  // ok, borrows no longer active
-   
     putline();
+
+    /* format_args! macro */
+
+    let s = std::fmt::format(format_args!("\n  {}, {}, {}", 1, 2, 3.5));
+    put_str(&s);
+    put(&s);
+    putlinen(1);
+    let s = String::from("\n  1, 2, -3.5");
+    put(&s);
+    log(&s);
+    show("s = ", &s);
+
+    put("\n  ");
+    putdb(&(1, 2.5, 'a'));
+
+    put("\n  ");
+    putdb(&(1, -2.5, 'a'));
+
+    put("\n  ");
+    putdb(&{1; 2.5; 'z'});
+
+    #[derive(Debug)]
+    struct S {x:i32, y:f64, s:String, };
+    let st:S = S { x:3, y:4.2, s:"xyz".to_string() };
+    put("\n  ");
+    putdb(&st);
+    putline();
+    
     sub_title("That's all Folks!");
     putlinen(2);
 }
