@@ -15,6 +15,6 @@ mod types;
 
 fn main() {
 
-    types::run();
+    probe_struct::run();
     print!("\n\n");
 }

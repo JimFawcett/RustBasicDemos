@@ -14,6 +14,15 @@ use std::any::type_name;
 use std::mem::size_of;
 
 /*------------------------------------------------------------- 
+   show line with len hyphens
+*/
+pub fn separator(len:u8) {
+    let mut s = String::new();
+    for _i in 1..len+2 { s.push('-');}
+    print!("\n {}",s);
+}
+
+/*------------------------------------------------------------- 
    show value on console
    - expects T to implement Debug
    - see #[define(Debug)] attributes, above 
