@@ -7,7 +7,7 @@ struct Char<T> {
     t:T,
 }
 
-trait CollectionChars<T> {
+trait Collection_chars<T> {
     fn push(&mut self, ch:T);
     // fn push_str(&self, &s:String<T>);
     fn index(&mut self, indx: usize) -> &T;
@@ -15,7 +15,7 @@ trait CollectionChars<T> {
 struct String<T>{
     chars: Vec<T>,
 }
-impl<T> CollectionChars<T> for String<T> {
+impl<T> Collection_chars<T> for String<T> {
     fn push(&mut self, ch:T) {
         self.chars.push(ch)
     }
@@ -23,13 +23,13 @@ impl<T> CollectionChars<T> for String<T> {
         
     // }
     fn index(&mut self, indx: usize) -> &T {
-        self.chars().get(indx)
+        self.chars.get(indx)
     }
 }
 
 fn main() {
 
-    let s8 = String::new();
+    let s8 = String8::new();
     s8.push('a' as u8);
     s8.push('b');
     println!("Hello, world!");
