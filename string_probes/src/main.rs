@@ -87,7 +87,7 @@ fn main() {
 
     let s1 = s.clone();
     let v:Vec<u8> = Vec::from(s1);
-    slog(&v[0]);
+    log(&v[0]);
     show("vec from string",&v);
     putline();
 
@@ -109,12 +109,12 @@ fn main() {
     /*-- str --*/
 
     let s_slice = &s[..];   // slice containing all chars of s
-    slog(&s_slice);
+    log(&s_slice);
     show("s_slice = ", &s_slice);
     putline();
 
     let s_slice2 = s.as_str();
-    slog(&s_slice2);
+    log(&s_slice2);
     putline();
 
     /*-- create string and mutate --*/
@@ -127,7 +127,7 @@ fn main() {
     putline();
 
     let t = s.replace("string","Rust String");
-    slog(&t);
+    log(&t);
     putline();
 
     for tok in s.split_whitespace() {
@@ -172,12 +172,12 @@ fn main() {
         */
         /*-- slices are non-owning views and are borrows of s --*/
         let slice_all = &s;
-        slog(&slice_all);
+        log(&slice_all);
         show("slice_all = ", &slice_all);
         putline();
 
         let third = &s[2..3];       // string slice with one char
-        slog(&third);
+        log(&third);
         show("third = ",&third);
         putline();
 
@@ -194,7 +194,7 @@ fn main() {
         // - can't modify owner while borrows are active
         //------------------------------------------------
         // s.push('Z');
-        // slog(&slice_all);
+        // log(&slice_all);
 
     }   // elem borrow ends here
 
@@ -227,7 +227,7 @@ fn main() {
     put("\n  ");
     putdb(&st);
     putline();
-    
+
     sub_title("That's all Folks!");
     putlinen(2);
 }

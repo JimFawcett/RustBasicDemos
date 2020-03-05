@@ -20,7 +20,7 @@
 */
 #[allow(unused_imports)]
 use display::{
-    putline, title, show_type, show_value, log, slog, putlinen
+    putline, main_title, show_type, show_value, log, slog, putlinen
 };
 use std::fmt::{Debug, Display};
 use std::any::Any;
@@ -43,7 +43,7 @@ fn separator() {
 
 fn main() {
 
-    title("exploring basic types".to_string());
+    main_title("exploring basic types");
     /*
       Rust ints:
       i8, u8, i16, u16, i32, u32, i64, u64, i128, u128, isize, usize
@@ -160,13 +160,13 @@ fn main() {
     /* attempt to mutate after borrow */
 
     let mut s = String::from("s is owner");
-    slog(&s);
+    log(&s);
     {
         let rs = &s;  // borrow s
         // statement below fails to compile
         // owner can't mutate after borrow 
         // s += " with stuff";
-        slog(&rs);
+        log(&rs);
     }  // borrow ends here
     s += " with stuff";
     slog(&s);

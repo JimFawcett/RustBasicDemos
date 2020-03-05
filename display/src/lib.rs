@@ -13,15 +13,12 @@ use std::any::Any;
 use std::any::type_name;
 use std::mem::size_of;
 
-/*------------------------------------------------------------- 
-   show line with len hyphens
+/*-------------------------------------------------------------
+   Display message and value on console
 */
-pub fn separator(len:u8) {
-    let mut s = String::new();
-    for _i in 1..len+2 { s.push('-');}
-    print!("\n {}",s);
+pub fn show<T: Debug>(msg:&str, t:&T) {
+    print!("\n  {}{:?}", msg, t);
 }
-
 /*------------------------------------------------------------- 
    show value on console
    - expects T to implement Debug
@@ -30,7 +27,6 @@ pub fn separator(len:u8) {
 pub fn show_value<T: Debug>(value: &T) {
     print!("\n  value: {:?}", value);
 }
-
 /*------------------------------------------------------------- 
    show type name on console
    - expects T to implement Debug
@@ -40,13 +36,12 @@ pub fn show_type<T: Debug>(_value: &T) {
     let name = type_name::<T>();
     print!("\n  TypeId: {}, size: {}", name, size_of::<T>());
 }
-
-/*------------------------------------------------------------- 
+  /*------------------------------------------------------------- 
    show type name and value on console
    - expects T to implement Debug
    - see #[define(Debug)] attributes, above 
 */
-pub fn slog<T: Debug>(value: &T) {
+pub fn log<T: Debug>(value: &T) {
     let name = type_name::<T>();
     print!("\n  TypeId: {}, size: {}", name, size_of::<T>());
     print!("\n  value:  {:?}", value);
@@ -57,7 +52,7 @@ pub fn slog<T: Debug>(value: &T) {
    - expects T to implement Debug
    - see #[define(Debug)] attributes, above 
 */
-pub fn log<T: Any + Debug>(value: &T) {
+pub fn slog<T: Any + Debug>(value: &T) {
     let value_any = value as &dyn Any;
     let name = type_name::<T>();
     print!("\n  TypeId: {}, size: {}", name, size_of::<T>());
@@ -74,13 +69,6 @@ pub fn log<T: Any + Debug>(value: &T) {
         }
     }
 }
-
-// This function wants to log its parameter out prior to doing work with it.
-// fn do_work<T: Any + Debug>(value: &T) {
-//     log(value);
-//     // ...do some other work
-// }
-
 /*-------------------------------------------------------------
    Display underlined main title on console
 */
@@ -97,19 +85,21 @@ pub fn sub_title(msg: &str) {
     let s = std::iter::repeat('-').take(msg.len() + 2).collect::<String>();
     print!("\n {}", s);
 }
-/*-------------------------------------------------------------
-   Display underlined sub title on console - depricated
+// /*-------------------------------------------------------------
+//    Display underlined sub title on console - depricated
+// */
+// pub fn title(msg: String) {
+//     print!("\n  {}", msg);
+//     let s = std::iter::repeat('-').take(msg.len() + 2).collect::<String>();
+//     print!("\n {}", s);
+// }
+/*------------------------------------------------------------- 
+   show line with len hyphens
 */
-pub fn title(msg: String) {
-    print!("\n  {}", msg);
-    let s = std::iter::repeat('-').take(msg.len() + 2).collect::<String>();
-    print!("\n {}", s);
-}
-/*-------------------------------------------------------------
-   Display message and value on console
-*/
-pub fn show<T: Debug>(msg:&str, t:&T) {
-  print!("\n  {}{:?}", msg, t);
+pub fn separator(len:u8) {
+    let mut s = String::new();
+    for _i in 1..len+2 { s.push('-');}
+    print!("\n {}",s);
 }
 
 /*-- push a single newline to console --*/

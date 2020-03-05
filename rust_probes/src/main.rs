@@ -15,6 +15,13 @@ mod types;
 
 fn main() {
 
-    probe_struct::run();
+    //formatstructure::run();
+    //dblformats::run();
+    //debugformats::run();
+    demodrop::run();
+    //env_probe::run();
+    //probe_struct::run();
+    //ownership::run();
+    //types::run();
     print!("\n\n");
 }

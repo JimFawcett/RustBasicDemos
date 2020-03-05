@@ -6,6 +6,8 @@
 // Jim Fawcett, https://JimFawcett.github.io, 24 Feb 2020  //
 /////////////////////////////////////////////////////////////
 
+use display::*;  // import all pubs
+
 #[allow(dead_code)]
 fn show_copy() {
     print!("\n  copied");
@@ -14,14 +16,8 @@ fn show_copy() {
 struct TestBlittable {
     pub id:u8,
 }
-impl Copy for TestBlittable { 
-    // clone();
-    // (|| print!("\n  copied"))();
-    // // fn copy(&self) -> TestBlittable {
-    // //     *self
-    // // }
-    //clone(&self)
-}
+impl Copy for TestBlittable { // copy trait has no methods
+}                             // its a marker trait
 
 impl Clone for TestBlittable {
     fn clone(&self) -> TestBlittable {
@@ -41,10 +37,12 @@ fn main() {
    
     let x = TestBlittable::new(42);
     let mut y = x;
-    println!("\n  y = {:?}\n", y);
+    print!("\n  y = {:?}", y);
     y = x.clone();
+    let _z = x; // makes copy
+    log(&x);    // so we can still use x
     // let cls = || print!("\n  a closure");
     // cls();
     // (|| print!("\n  another closure"))();
-    println!("\n  y = {:?}\n", y);
+    print!("\n  y = {:?}\n\n", y);
 }
