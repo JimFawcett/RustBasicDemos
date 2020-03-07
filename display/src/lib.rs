@@ -13,27 +13,32 @@ use std::any::Any;
 use std::any::type_name;
 use std::mem::size_of;
 
+/*-----------------------------------------------
+   Accepts either String or str
+   - no automatic newline
+*/
+pub fn shows<S: Into<String>>(s:S) {
+    print!("{}",s.into());
+}
 /*-------------------------------------------------------------
    Display message and value on console
+   - no automatic newline
 */
 pub fn show<T: Debug>(msg:&str, t:&T) {
-    print!("\n  {}{:?}", msg, t);
+    print!("{}{:?}", msg, t);
 }
 /*------------------------------------------------------------- 
    show value on console
    - expects T to implement Debug
-   - see #[define(Debug)] attributes, above 
 */
 pub fn show_value<T: Debug>(value: &T) {
     print!("\n  value: {:?}", value);
 }
 /*------------------------------------------------------------- 
    show type name on console
-   - expects T to implement Debug
-   - see #[define(Debug)] attributes, above 
 */
-pub fn show_type<T: Debug>(_value: &T) {
-    let name = type_name::<T>();
+pub fn show_type<T>(_value: &T) {
+    let name = std::any::type_name::<T>();
     print!("\n  TypeId: {}, size: {}", name, size_of::<T>());
 }
   /*------------------------------------------------------------- 
@@ -50,7 +55,6 @@ pub fn log<T: Debug>(value: &T) {
 /*------------------------------------------------------------- 
    log type name and value to console
    - expects T to implement Debug
-   - see #[define(Debug)] attributes, above 
 */
 pub fn slog<T: Any + Debug>(value: &T) {
     let value_any = value as &dyn Any;
@@ -85,14 +89,6 @@ pub fn sub_title(msg: &str) {
     let s = std::iter::repeat('-').take(msg.len() + 2).collect::<String>();
     print!("\n {}", s);
 }
-// /*-------------------------------------------------------------
-//    Display underlined sub title on console - depricated
-// */
-// pub fn title(msg: String) {
-//     print!("\n  {}", msg);
-//     let s = std::iter::repeat('-').take(msg.len() + 2).collect::<String>();
-//     print!("\n {}", s);
-// }
 /*------------------------------------------------------------- 
    show line with len hyphens
 */
@@ -101,14 +97,15 @@ pub fn separator(len:u8) {
     for _i in 1..len+2 { s.push('-');}
     print!("\n {}",s);
 }
-
-/*-- push a single newline to console --*/
-
+/*-------------------------------------------------------------
+   push a single newline to console
+*/
 pub fn putline() {
     print!("\n");
 }
-/*-- pust n newlines to console --*/
-
+/*-------------------------------------------------------------
+   pust n newlines to console
+*/
 pub fn putlinen(n: usize) {
     let s = std::iter::repeat('\n').take(n).collect::<String>();
     print!("{}", s);
@@ -139,6 +136,7 @@ mod tests {
         main_title("test types");
         let mut str = String::new();
         str.push_str("a string");
+        shows("\n  showing type and value:");
         show_type(&str);
         show_value(&str);
         let an_i8: i8 = 100;

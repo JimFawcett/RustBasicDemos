@@ -1,4 +1,4 @@
-// function_probes
+<pre>// function_probes
 
 #[allow(unused_imports)]
 use display::*;
@@ -10,24 +10,24 @@ use std::fmt::Debug;
    Accepts String by value
 */
 fn show_str1(s:String) {
-  print!("{}",&s);
+  print!("{}",&amp;s);
 }
 /*-----------------------------------------------
    Accepts String by reference
 */
-fn show_str2(s:&String) {
-  print!("{}",&s);
+fn show_str2(s:&amp;String) {
+  print!("{}",&amp;s);
 }
 /*-----------------------------------------------
    Accepts str by reference
 */
-fn show_str3(s:&str) {
-  print!("{}",&s);
+fn show_str3(s:&amp;str) {
+  print!("{}",&amp;s);
 }
 /*-----------------------------------------------
    Returns String
 */
-fn return_str1() -> String {
+fn return_str1() -&gt; String {
   let s = "test string 1".to_string();
   s  // moves s
 }
@@ -37,7 +37,7 @@ fn return_str1() -> String {
      to a passed in ref or a static ref
    - compiler should prevent anything else
 */
-fn return_str2() -> &'static str {
+fn return_str2() -&gt; &amp;'static str {
   let s = "test string 2";
   s
 }
@@ -47,7 +47,7 @@ fn return_str2() -> &'static str {
      to a passed in ref or a static ref
    - compiler should prevent anything else
 */
-fn return_str3(s:&mut String) -> &mut String {
+fn return_str3(s:&amp;mut String) -&gt; &amp;mut String {
   s.push('Z');
   s
 }
@@ -56,36 +56,8 @@ fn return_str3(s:&mut String) -> &mut String {
    function's stack frame, so invalid after call
 */
 fn pass_by_value_str(s:String) {  // move
-  show_type(&s);
-  show_value(&s);
-}
-/*-----------------------------------------------
-   Pass by ref borrows the argument. Borrow
-   moved into the function's stack frame.  
-   Borrow ends at end of function call, so 
-   param is valid after call
-*/
-fn pass_by_ref_str(rs:&String) {  // borrow
-  show_type(&rs);
-  show_value(&rs);
-}
-/*-----------------------------------------------
-   Pass by value moves the argument into the
-   function's stack frame, so invalid after call
-*/
-fn pass_by_value<T>(t:T) where T:Debug {
-  show_type(&t);
-  show_value(&t);
-}
-/*-----------------------------------------------
-   Pass by ref borrows the argument. Borrow
-   moved into the function's stack frame.  
-   Borrow ends at end of function call, so 
-   param is valid after call
-*/
-fn pass_by_ref<T>(rt:&T) where T:Debug {
-  show_type(&rt);
-  show_value(&rt);
+  show_type(&amp;s);
+  show_value(&amp;s);
 }
 /*-----------------------------------------------
    Pass by ref borrows the argument into the
@@ -93,13 +65,41 @@ fn pass_by_ref<T>(rt:&T) where T:Debug {
    of function stack frame, so param is valid 
    after call
 */
-fn lifetime(rs:&String) -> String {
+fn pass_by_ref_str(rs:&amp;String) {  // borrow
+  show_type(&amp;rs);
+  show_value(&amp;rs);
+}
+/*-----------------------------------------------
+   Pass by value moves the argument into the
+   function's stack frame, so invalid after call
+*/
+fn pass_by_value&lt;T&gt;(t:T) where T:Debug {
+  show_type(&amp;t);
+  show_value(&amp;t);
+}
+/*-----------------------------------------------
+   Pass by ref borrows the argument into the
+   function's stack frame.  Borrow ends at end
+   of function stack frame, so param is valid 
+   after call
+*/
+fn pass_by_ref&lt;T&gt;(rt:&amp;T) where T:Debug {
+  show_type(&amp;rt);
+  show_value(&amp;rt);
+}
+/*-----------------------------------------------
+   Pass by ref borrows the argument into the
+   function's stack frame.  Borrow ends at end
+   of function stack frame, so param is valid 
+   after call
+*/
+fn lifetime(rs:&amp;String) -&gt; String {
   show("\n  rs = ",rs); 
   show_type(rs);
   // replace doesn't attempt to mutate rs
   let s = rs.replace("z","a");
-  show("\n  s = ",&s);  
-  show_type(&s);
+  show("\n  s = ",&amp;s);  
+  show_type(&amp;s);
   shows("\n  returning string s by value (a move)");
   // let put = |st|{ print!("{}", st); };
   // put("\n  returning s by value"); 
@@ -111,12 +111,12 @@ fn lifetime(rs:&String) -> String {
 //    of function stack frame, so param is valid 
 //    after call. Function returns a reference!
 // */
-fn lifetime2<'a, T>(rt:&'a T) -> & 'a T where T:Debug {
+fn lifetime2&lt;'a, T&gt;(rt:&amp;'a T) -&gt; &amp; 'a T where T:Debug {
   // Lifetime annotation, 'a, enables borrow checker
   // to ensures that T lives at least as long as rt, 
   // its reference.
-  show_type(&rt);
-  show_value(&rt);
+  show_type(&amp;rt);
+  show_value(&amp;rt);
   rt  // the only time it makes sense to return a reference
       // is when returning a possibly modified input reference
 }
@@ -127,7 +127,7 @@ fn lifetime2<'a, T>(rt:&'a T) -> & 'a T where T:Debug {
 /*-----------------------------------------------
    Accepts either String or str
 */
-fn shows<S: Into<String>>(s:S) {
+fn shows&lt;S: Into&lt;String&gt;&gt;(s:S) {
   print!("{}",s.into());
 }
 /*---------------------------------------------------------
@@ -135,12 +135,12 @@ fn shows<S: Into<String>>(s:S) {
 */
 use std::panic;  // catch_unwind panic
 
-fn tester(f:fn() -> bool, name:&str) -> bool {
+fn tester(f:fn() -&gt; bool, name:&amp;str) -&gt; bool {
   let rslt = panic::catch_unwind(|| { f() });  // simulate try-catch
   match rslt {
-    Ok(true) => print!("\n  {} passed", name),
-    Ok(false) => { print!("\n  {} failed", name); return false; },
-    Err(_) => { print!("\n  {} paniced", name); return false; }
+    Ok(true) =&gt; print!("\n  {} passed", name),
+    Ok(false) =&gt; { print!("\n  {} failed", name); return false; },
+    Err(_) =&gt; { print!("\n  {} paniced", name); return false; }
   }
   return true;
 }
@@ -150,16 +150,16 @@ fn set_my_hook() {
   panic::set_hook(Box::new(|_|{ print!(" ");}));
 }
 
-fn always_fails() -> bool {
+fn always_fails() -&gt; bool {
   false
 }
 
-fn always_succeeds() -> bool {
+fn always_succeeds() -&gt; bool {
   true
 }
 
 #[allow(unreachable_code)]
-fn always_panics() -> bool {
+fn always_panics() -&gt; bool {
   panic!("always panics");
   return false;
 }
@@ -177,41 +177,41 @@ fn main() {
 
   /*-------------------------------------------*/
   separator(48);
-  sub_title("show_str2(s:&String)");  // a borrow
-  show_str2(&"\n  second test".to_string());
+  sub_title("show_str2(s:&amp;String)");  // a borrow
+  show_str2(&amp;"\n  second test".to_string());
 
   /*-------------------------------------------*/
   separator(48);
-  sub_title("show_str3(s:&str)");  // a borrow
+  sub_title("show_str3(s:&amp;str)");  // a borrow
   show_str3("\n  third test");
 
   /*-------------------------------------------*/
   separator(48);
-  sub_title("return_str1() -> String");
+  sub_title("return_str1() -&gt; String");
   let mut s = return_str1();
   s.push_str(" with more stuff");
   let mut s1 = "\n  ".to_string();
-  s1.push_str(&s);
+  s1.push_str(&amp;s);
   shows(s1);
   
   /*-------------------------------------------*/
   separator(48);
-  sub_title("return_str2() -> &'static str");
+  sub_title("return_str2() -&gt; &amp;'static str");
   let s = return_str2();
   let mut st = s.to_string();
   st.push_str(" with more stuff");
   let mut s1 = "\n  ".to_string();
-  s1.push_str(&st);
+  s1.push_str(&amp;st);
   shows(s1);
   
   /*-------------------------------------------*/
   separator(48);
-  sub_title("return_str3(mut s:&mut String) -> &mut String");
+  sub_title("return_str3(mut s:&amp;mut String) -&gt; &amp;mut String");
   let mut s = String::from("test string 4");
-  let rs = return_str3(&mut s);
+  let rs = return_str3(&amp;mut s);
   rs.push_str(" with more stuff");
   let mut s1 = "\n  ".to_string();
-  s1.push_str(&rs);
+  s1.push_str(&amp;rs);
   shows(s1);
   
   /*-------------------------------------------*/
@@ -227,11 +227,11 @@ fn main() {
   /*-------------------------------------------*/
   separator(48);
   sub_title("Pass string by reference");
-  pass_by_ref_str(&s);
+  pass_by_ref_str(&amp;s);
   s.push('a');
-  pass_by_ref(&s);  // borrows s
+  pass_by_ref(&amp;s);  // borrows s
   s.push('b');
-  show("\n  after pushing a and b, s = ",&s);
+  show("\n  after pushing a and b, s = ",&amp;s);
 
   /*-------------------------------------------*/
   separator(48);
@@ -246,54 +246,53 @@ fn main() {
   /*-------------------------------------------*/
   separator(48);
   sub_title("Pass by reference");
-  pass_by_ref(&s);
+  pass_by_ref(&amp;s);
   s.push('a');
-  pass_by_ref(&s);
-  show("\n  after pushing a, s = ",&s);
+  pass_by_ref(&amp;s);
 
   /*-------------------------------------------*/
   separator(48);
   sub_title("lifetime");
   let mut s = "xyz".to_string();
-  show("\n  s = ",&s);
+  show("\n  s = ",&amp;s);
   shows("\n  calling lifetime");
   separator(30);
-  let r = &mut lifetime(&mut s);
+  let r = &amp;mut lifetime(&amp;mut s);
   separator(30);
   shows("\n  returned from lifetime");
-  show("\n  s = ",&s);
-  show("\n  r = ",&r);
-  show_type(&r);
+  show("\n  s = ",&amp;s);
+  show("\n  r = ",&amp;r);
+  show_type(&amp;r);
   r.push('b');
-  show("\n  after pushing b, r = ",&r);
+  show("\n  after pushing b, r = ",&amp;r);
   s.push('b');
-  show("\n  after pushing b, s = ",&s);
+  show("\n  after pushing b, s = ",&amp;s);
 
   /*-------------------------------------------*/
   separator(48);
   sub_title("lifetime2");
   let mut s = "xyz".to_string();
-  show("\n  s = ",&s);
-  let r = &mut lifetime2(&mut s);
-  show_type(&r);
-  show("\n  r = ",&r);
+  show("\n  s = ",&amp;s);
+  let r = &amp;mut lifetime2(&amp;mut s);
+  show_type(&amp;r);
+  show("\n  r = ",&amp;r);
 
   /*-------------------------------------------*/
   separator(48);
   sub_title("Function pointer");
   let fun = pass_by_ref;
   let mut s = "xyz".to_string();
-  fun(&s);
+  fun(&amp;s);
   s.push('a');
-  fun(&s);
+  fun(&amp;s);
 
   /*-------------------------------------------*/
   separator(48);
   sub_title("lambdas");
-  let l = |s:&str|{ show_type(&s); show_value(&s); };
+  let l = |s:&amp;str|{ show_type(&amp;s); show_value(&amp;s); };
   l("xyz");
   let s = String::from("abc");
-  l(&s);
+  l(&amp;s);
 
   /*-------------------------------------------*/
   separator(48);
@@ -318,3 +317,4 @@ fn main() {
   print!("\n\n  BOOM!\t");
   putlinen(2);
 }
+</pre>
