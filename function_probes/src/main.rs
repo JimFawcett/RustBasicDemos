@@ -34,7 +34,7 @@ fn lifetime(rs:&String) -> String {
   let rs = rs.replace("z","a");
   show_type(&rs);
   show_value(&rs);  
-  rs
+  rs  // return by value moves string to destination
 }
 
 // /*-----------------------------------------------
@@ -46,11 +46,41 @@ fn lifetime(rs:&String) -> String {
 fn lifetime2<'a, T>(rt:&'a T) -> & 'a T where T:Debug {
   show_type(&rt);
   show_value(&rt);
-  rt
+  rt  // the only time it makes sense to return a reference
+      // is when returning a possibly modified input reference
+}
+/*---------------------------------------------------------
+   Higher order function
+*/
+use std::panic;  // catch_unwind panic
+
+fn tester(f:fn() -> bool, name:&str) -> bool {
+  let rslt = panic::catch_unwind(|| { f() });  // simulate try-catch
+  match rslt {
+    Ok(true) => print!("\n  {} passed", name),
+    Ok(false) => { print!("\n  {} failed", name); return false; },
+    Err(_) => { print!("\n  {} paniced", name); return false; }
+  }
+  return true;
 }
 
-trait Test {
-  fn testing<T:Debug>(t:T) -> bool;
+/* hide panic notification */
+fn set_my_hook() {
+  panic::set_hook(Box::new(|_|{ print!(" ");}));
+}
+
+fn always_fails() -> bool {
+  false
+}
+
+fn always_succeeds() -> bool {
+  true
+}
+
+#[allow(unreachable_code)]
+fn always_panics() -> bool {
+  panic!("always panics");
+  return false;
 }
 
 fn main() {
@@ -114,7 +144,26 @@ fn main() {
     let s = String::from("abc");
     l(&s);
 
-    // //let t = Test;
-    // show_type(&_:Test);
-    // putline();
+    /*-------------------------------------------*/
+    separator(48);
+    sub_title("higher_order_function");
+    set_my_hook();
+
+    let rstl = tester(always_fails, "always_fails");
+    print!("\t\tresult = {}", rstl);
+    let rstl = tester(always_succeeds, "always_passes");
+    print!("\t\tresult = {}", rstl);
+    let rstl = tester(always_panics, "always_panics");
+    print!("\t\tresult = {}\n", rstl);
+
+    /* show that we intercepted panic and continued */
+    use std::io::{Write};
+    let one_second = std::time::Duration::from_millis(1000);
+    for i in 0..5 { 
+      print!("\n  tick {}\t", 5 - i); 
+      std::io::stdout().flush().unwrap();
+      std::thread::sleep(one_second);
+    };
+    print!("\n\n  BOOM!\t");
+    putlinen(2);
 }

@@ -1,28 +1,28 @@
-use std::fmt::{*};
+<pre>use std::fmt::{*};
 use display::{*};
 
 /*-----------------------------------------
-   Non-copy arguments will be moved
+   No copy arguments will be moved
 */
-fn demo<T:Debug>(t:T) {
-    show_type(&t);
-    show_value(&t);
+fn demo&lt;T:Debug&gt;(t:T) {
+    show_type(&amp;t);
+    show_value(&amp;t);
 }
   
 /*-----------------------------------------
-   ref so arguments will not be moved 
+   refs so arguments will not be moved 
 */
-fn demo_ref<T>(t:&T) where T:Debug  {
+fn demo_ref&lt;T&gt;(t:&amp;T) where T:Debug  {
     show_type(t);
     show_value(t);
 }
 
 #[derive(Debug)]
-struct Point<T> { x:T, y:T, z:T, }
+struct Point&lt;T&gt; { x:T, y:T, z:T, }
 
 // this works because blittable, provided that T is blittable
 #[derive(Debug, Copy, Clone)]
-struct BetterPoint<T> { x:T, y:T, z:T, }
+struct BetterPoint&lt;T&gt; { x:T, y:T, z:T, }
 
 /* test */
 
@@ -32,9 +32,9 @@ struct BetterPoint<T> { x:T, y:T, z:T, }
     let mut s = String::from("this is a test");
     
     sub_title("demo_ref");
-    demo_ref(&s);
+    demo_ref(&amp;s);
     let pi = 3.1415927;
-    demo_ref(&pi);
+    demo_ref(&amp;pi);
     s.push('Z');
     putline();
 
@@ -47,7 +47,7 @@ struct BetterPoint<T> { x:T, y:T, z:T, }
 
     sub_title("demo_ref and demo with struct");
     let mut pt = Point { x:1.0, y:-1.5, z:2.3 };
-    demo_ref(&pt);
+    demo_ref(&amp;pt);
     pt.x = 3.2;
     demo(pt);
     // statement below won't compile - pt moved for demo
@@ -56,7 +56,7 @@ struct BetterPoint<T> { x:T, y:T, z:T, }
 
     sub_title("demo_ref and demo with copy-able struct");
     let mut bpt = BetterPoint { x:1.0, y:-1.5, z:2.3 };
-    demo_ref(&bpt);
+    demo_ref(&amp;bpt);
     bpt.x = 3.2;
     demo(bpt);
     // statement ok - pt copied for demo
@@ -65,7 +65,7 @@ struct BetterPoint<T> { x:T, y:T, z:T, }
 
     sub_title("demo_ref and demo with copy-able struct");
     let mut bpt = BetterPoint { x:"one", y:"two", z:"three" };
-    demo_ref(&bpt);
+    demo_ref(&amp;bpt);
     bpt.x = "1";
     demo(bpt);
     // statement ok - pt copied for demo
@@ -78,7 +78,7 @@ struct BetterPoint<T> { x:T, y:T, z:T, }
         y:"two".to_string(), 
         z:"three".to_string() 
     };
-    demo_ref(&bpt);
+    demo_ref(&amp;bpt);
     bpt.x = "four".to_string();
     demo(bpt);
     // statement won't compile - pt not blittable
@@ -86,3 +86,4 @@ struct BetterPoint<T> { x:T, y:T, z:T, }
      
     putlinen(2);
 }
+</pre>
