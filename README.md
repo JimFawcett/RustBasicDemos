@@ -9,7 +9,7 @@ others trying to climb the same path.
 For now, the demos are:
 <ol>
   <li>
-    <strong>data_lifecycle</strong - explorations of ownership and borrowing.
+    <strong>data_lifecycle</strong - incomplete explorations of ownership and borrowing.
   </li>
   <li>
     <strong>data_types</strong> includes simple probes for each of the Rust data types.
@@ -28,7 +28,11 @@ For now, the demos are:
     <strong>file_io</strong> reads from a file and displays results.  will add file writes soon.
   </li>
   <li>
-    <strong>ops_probes</strong> - just starting to explore functions and lambdas.
+    <strong>function_probes</strong> - passing arguments including functions
+  <li>
+    <strong>generic_probes</strong> - generic functions and structs
+  <li>
+    <strong>ops_probes</strong> - just starting, will explore functions and lambdas.
   <li>
     <strong>rust_modules</strong> - hello world for modules.
   <li>
