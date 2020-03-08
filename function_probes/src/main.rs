@@ -280,6 +280,11 @@ fn main() {
 
   /*-------------------------------------------*/
   separator(48);
+  sub_title("shows<S: Into<String>>(s:S)");
+  shows("\n  This accepts either String or str");
+
+  /*-------------------------------------------*/
+  separator(48);
   sub_title("Function pointer");
   let fun = pass_by_ref;
   let mut s = "xyz".to_string();
