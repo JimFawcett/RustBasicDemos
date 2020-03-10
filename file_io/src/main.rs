@@ -16,7 +16,16 @@ use std::fs::File;
 use std::path::Path;
 use std::io::Result;
 use display::{*};
+// extern crate libc;
+//use libc::w
 
+//extern "C" { fn is_open(f:File) -> bool; }
+// #[allow(dead_code)]
+// fn is_open(f:File) -> bool {
+//     unsafe {
+//         f.descriptor >= 0
+//     }
+// }
 #[allow(dead_code)]
 fn open_file_for_write(file_name:&str) ->Result<File> {
     use std::fs::OpenOptions;
@@ -24,6 +33,8 @@ fn open_file_for_write(file_name:&str) ->Result<File> {
                .write(true)
                .create(true)
                .open(file_name);
+    //rfile.share_mode(DENY_READ | DENY_WRITE | DENY_DELETE);
+    //rfile.descriptor;
     rfile
 }
 #[allow(dead_code)]
@@ -128,6 +139,25 @@ fn main() -> std::io::Result<()> {
     else {
         print!("\n  read_file_to_string failed:\n    {:?}",rslt.err().unwrap());
     }
+    // putline();
+    // let f:File;
+    // {
+    //     let rslt = open_file_for_write(f);
+    //     if is_open(f) {
+    //         print!("\n  test file is open");
+    //     }
+    //     else {
+    //         print!("\n  test file is closed");
+    //     }
+    // }
+    // let rslt = open_file_for_write(f);
+    // if is_open(f) {
+    //     print!("\n  test file is open");
+    // }
+    // else {
+    //     print!("\n  test file is closed");
+    // }
+
     putlinen(2);
 
     let path = env::current_dir()?;
