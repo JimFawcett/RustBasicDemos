@@ -9,15 +9,21 @@
 //                                                         //
 // Jim Fawcett, https://JimFawcett.github.io, 24 Feb 2020  //
 /////////////////////////////////////////////////////////////
+/*
+   This crate contains some useful code, but also contains
+   some experimental code - commented out - trying to hook 
+   into libc.  I now know how much I don't know about that.
 
+   I've got some good references and plan to work on this.
+*/
 use std::env;
 use std::io::prelude::*;
 use std::fs::File;
 use std::path::Path;
 use std::io::Result;
 use display::{*};
-// extern crate libc;
-//use libc::w
+//extern crate libc;
+// use libc::*;
 
 //extern "C" { fn is_open(f:File) -> bool; }
 // #[allow(dead_code)]
@@ -32,9 +38,22 @@ fn open_file_for_write(file_name:&str) ->Result<File> {
     let rfile = OpenOptions::new()
                .write(true)
                .create(true)
+               .append(true)
                .open(file_name);
     //rfile.share_mode(DENY_READ | DENY_WRITE | DENY_DELETE);
     //rfile.descriptor;
+    // unsafe {
+    //   let s = "this_file".as_bytes();
+      //let ptr:[u8; 10] = &s[..];
+      //let ptr:*const[i8] = s.as_ptr::<i8>();
+      //*ptr:[i8] = &s;
+      //libc::access(&ptr, 0); 
+      //let start:i8 = 0;
+      //let end:i8 = 7;
+      //let ptr:[i8] = &s[start..end]; 
+      //let ptr:i8 = 42;
+      //libc::access(*-ptr,0);
+    // }
     rfile
 }
 #[allow(dead_code)]
