@@ -16,13 +16,14 @@
 
    I've got some good references and plan to work on this.
 */
+//use std::os::windows::fs;
 use std::env;
 use std::io::prelude::*;
 use std::fs::File;
 use std::path::Path;
 use std::io::Result;
 use display::{*};
-//extern crate libc;
+// extern crate winapi;
 // use libc::*;
 
 //extern "C" { fn is_open(f:File) -> bool; }
@@ -35,10 +36,14 @@ use display::{*};
 #[allow(dead_code)]
 fn open_file_for_write(file_name:&str) ->Result<File> {
     use std::fs::OpenOptions;
+    use std::os::windows::prelude::*;
+    //use std::os::windows::fs::OpenOptionsExt;
     let rfile = OpenOptions::new()
                .write(true)
                .create(true)
                .append(true)
+               .share_mode(0)
+               //.custom_flags(winapi::FILE_FLAG_DELETE_ON_CLOSE)
                .open(file_name);
     //rfile.share_mode(DENY_READ | DENY_WRITE | DENY_DELETE);
     //rfile.descriptor;
@@ -59,11 +64,23 @@ fn open_file_for_write(file_name:&str) ->Result<File> {
 #[allow(dead_code)]
 fn open_file_for_read(file_name:&str) ->Result<File> {
     use std::fs::OpenOptions;
+    //use std::os::windows::prelude::*;
     let rfile = OpenOptions::new()
                .read(true)
+            //    .share_mode(0)
                .open(file_name);
     rfile
 }
+
+// #[allow(dead_code)]
+// fn open_file_for_windows(file_name:&str) ->Result<File> {
+//     use std::fs::OpenOptions;
+//     use std::os::windows::prelude::*;
+//     let rfile = OpenOptions::new()
+//                .share_mode(0)  // do not allow others
+//                .open(file_name);
+//     rfile
+// }
 
 #[allow(dead_code)]
 fn write_string_to_file(mut f:File, s:&str) -> Result<usize> {
@@ -102,8 +119,9 @@ fn test_file_op<T>(r:&Result<T>) -> bool {
 
 fn main() -> std::io::Result<()> {
 
+    //let file_name = "c:/github/JimFawcett/RustBasicDemos/file_io/first_test.txt";
     let file_name = "first_test.txt";
-    let file_text = "Howdy folks!";
+    let file_text = "\n  Howdy folks!";
     
     /*-- first write --*/
     let f = open_file_for_write(file_name);
@@ -125,13 +143,13 @@ fn main() -> std::io::Result<()> {
     putline();
 
     /*-- second write --*/
-    let f = open_file_for_write(file_name);
-    let success = test_file_op(&f);
+    let g = open_file_for_write(file_name);
+    let success = test_file_op(&g);
 
-    let file_text = "some other text";
+    let file_text = "\n  some other text";
     if success {
         print!("\n  successfully opened file \"{}\" for write", file_name);
-        let ok = checked_write_string_to_file(f.unwrap(), file_text);
+        let ok = checked_write_string_to_file(g.unwrap(), file_text);
         if ok {
             print!("\n  checked_write of {:?} succeeded", file_text);
         }
@@ -140,7 +158,7 @@ fn main() -> std::io::Result<()> {
         }
     }
     else {
-        print!("\n  {}", f.err().unwrap());
+        print!("\n  {}", g.err().unwrap());
     }
     putline();
 
@@ -153,7 +171,7 @@ fn main() -> std::io::Result<()> {
     };
     if ok {
         let s = read_file_to_string(rslt.unwrap()).unwrap();
-        print!("\n  Read string {:?} from file {:?}", s, file_name);
+        print!("\n  Read string {} from file {}", s, file_name);
     }
     else {
         print!("\n  read_file_to_string failed:\n    {:?}",rslt.err().unwrap());
