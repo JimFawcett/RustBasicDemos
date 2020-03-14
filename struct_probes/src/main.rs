@@ -1,94 +1,109 @@
+// struct_probes::main.rs
+
 #[allow(unused_imports)]
 use display::{*};
-use std::fs::File;
-use std::io::prelude::*;
+use std::fmt;
+
+/*-- enums used for Demo1 and Demo2 --*/
+#[derive(Debug, PartialEq, Copy, Clone)]
+#[allow(dead_code)]
+pub enum Level { Basic, Intermediate, Advanced }
+#[derive(Debug, PartialEq, Copy, Clone)]
+#[allow(dead_code)]
+pub enum Topic { Rust, Cpp, Design, }
+
+/*-- Struct Demo1 --*/
+#[derive(Debug)]
+pub struct Demo1 {
+    name: String,
+    level: Level,
+    topic: Topic,
+}
+#[allow(dead_code)]
+impl Demo1 {
+    pub fn new() -> Self {
+        Self {
+            name:String::from(""),
+            level: Level::Basic,
+            topic: Topic::Rust,
+        }
+    }
+    pub fn set_name(&mut self, s:&str) { 
+        self.name = s.to_string(); 
+    }
+    pub fn get_name(&self) -> &String {
+        &self.name
+    }
+    pub fn set_level(&mut self, l:Level) {
+        self.level = l;
+    }
+    pub fn get_level(&self) -> &Level {
+        &self.level
+    }
+    pub fn set_topic(&mut self, t:Topic) {
+        self.topic = t;
+    }
+    pub fn get_topic(&self) -> &Topic {
+        &self.topic
+    }
+}
 
 #[derive(Debug)]
-pub struct Logger {
-    fl:Option<File>,
-    console:bool,
+pub struct Demo2 {
+    pub name: String,
+    pub level: Level,
+    pub topic: Topic,
 }
 #[allow(dead_code)]
-impl Logger {
-    pub fn new() -> Self {
-        Self { fl:None, console:false, }
-    }
-    pub fn init(&self, f:File, con:bool) -> Self {
-        Self { fl:Some(f), console:con, }
-    }
-    pub fn console(&mut self, con:bool) {
-        self.console = con
-    }
-    pub fn file(&mut self, f:File) {
-        self.fl = Some(f);
-    }
-    pub fn opt(&mut self, f:Option<File>) {
-        self.fl = f;
-    }
-    pub fn open(&mut self, s:&str) {
-        use std::fs::OpenOptions;
-        self.fl = OpenOptions::new()
-                .write(true)
-                .create(true)
-                .append(true)
-                .open(s).ok();
-    }
-    pub fn write(&mut self, s:&str) {
-        if let Some(ref mut fl) = self.fl {
-            let _n = fl.write(s.as_bytes());
-        }
-        if self.console {
-            print!("{}", s);
-        }
-    }
-    pub fn close(&mut self) {
-        self.fl = None;
+impl fmt::Display for Demo2 {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+          f, 
+          "Demo2 {{ name: \"{}\", level: {:?}, topic: {:?} }}", 
+          self.name, self.level, self.topic)
     }
 }
-#[derive(PartialEq)]
-#[allow(dead_code)]
-enum OpenMode { Truncate, Append }
-#[allow(dead_code)]
-fn open_file(s:&str, mode:OpenMode) -> Option<File> {
-    let fl:Option<File>;
-    use std::fs::OpenOptions;
-    if mode == OpenMode::Truncate {
-        fl = OpenOptions::new()
-             .write(true)
-             .truncate(true)
-             .open(s).ok();
+impl Default for Demo2 {
+    fn default() -> Self {
+        Self {
+            name: String::from(""),
+            level: Level::Basic,
+            topic: Topic::Rust,
+        }
     }
-    else {
-        fl = OpenOptions::new()
-             .write(true)
-             .create(true)
-             .append(true)
-             .open(s).ok();
+}
+impl Demo2 {
+    pub fn init(self) -> Demo2 {
+      Demo2 {
+        name: self.name,
+        level: self.level,
+        topic: self.topic,
+      }
     }
-    fl
 }
 
 fn main() {
-    main_title("Demonstrating Logger");
+
+    sub_title("Demonstrating Demo1 Struct");
     putline();
-    sub_title("written to \"Log.txt\"");
+    let mut demo1 = Demo1::new();
+    demo1.set_name("Demo1 probe");
+    print!("\n  {:?}", demo1);
+    print!("\n  Demo1 level = {:?}", demo1.get_level());
+    putline();
 
-    let file_name = "log.txt";
-    let f = open_file(file_name, OpenMode::Append);
+    sub_title("Demonstrating Demo2 Struct");
+    putline();
+    let mut demo2 = Demo2 {
+        name: String::from("Jim's Demo2"),
+        ..Default::default()
+    }.init();
 
-    let mut log = Logger::new();
-    log.console(true);
-    log.opt(f);
-    log.write("\n  first entry");
-    log.write(", second entry");
-    log.close();
-    log.console(false);
-    /*-- won't write, won't panic --*/
-    log.write("\n  after close");
-    /*-- reopens logger with named file --*/
-    log.open("log.txt");
-    log.console(true);
-    log.write("\n  after reopen");
+    print!("\n  Using Display format\n    {}", demo2);
+    print!("\n  setting level to Intermediate:");
+    demo2.level = Level::Intermediate;
+    print!("\n  Using Debug format\n    {:?}", demo2);
+    putline();    
 
     println!("\n\n  That's all Folks!\n");
 }
