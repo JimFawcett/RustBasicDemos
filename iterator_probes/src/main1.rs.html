@@ -1,14 +1,14 @@
-// RustBasicDemos::iterator_probes
+<pre>// RustBasicDemos::iterator_probes
 
 use display::{*};
 
 #[allow(dead_code)]
-fn show_prefix(p:&str) {
+fn show_prefix(p:&amp;str) {
     print!("{}", p);
 }
 #[allow(dead_code)]
 /*-- note: Iterator has an associated type, Item --*/
-fn show_csl<T>(mut t:T) where T:Iterator, T::Item:std::fmt::Debug, {
+fn show_csl&lt;T&gt;(mut t:T) where T:Iterator, T::Item:std::fmt::Debug, {
     print!("{:?}", t.next().unwrap());  // no leading comma
     for val in t {
         print!(", {:?}", val);          // leading comma
@@ -16,19 +16,19 @@ fn show_csl<T>(mut t:T) where T:Iterator, T::Item:std::fmt::Debug, {
 }
 #[allow(dead_code)]
 /*-- note: Iterator has an associated type, Item --*/
-fn display_csl<T>(mut t:T) where T:Iterator, T::Item:std::fmt::Display, {
+fn display_csl&lt;T&gt;(mut t:T) where T:Iterator, T::Item:std::fmt::Display, {
     print!("{}", t.next().unwrap());  // no leading comma
     for val in t {
         print!(", {}", val);          // leading comma
     }
 }
 #[allow(dead_code)]
-fn show_pcsl<T>(t:T) where T:Iterator, T::Item:std::fmt::Debug,  {
+fn show_pcsl&lt;T&gt;(t:T) where T:Iterator, T::Item:std::fmt::Debug,  {
     show_prefix("\n  ");
     show_csl(t);
 }
 #[allow(dead_code)]
-fn display_pcsl<T>(t:T) where T:Iterator, T::Item:std::fmt::Display,  {
+fn display_pcsl&lt;T&gt;(t:T) where T:Iterator, T::Item:std::fmt::Display,  {
     show_prefix("\n  ");
     display_csl(t);
 }
@@ -51,7 +51,7 @@ fn main() {
     shows("\n-- demo iter over instance of map type --");
     show_prefix("\n  ");
     use std::collections::HashMap;
-    let mut map:HashMap<&str, i32> = HashMap::new();
+    let mut map:HashMap&lt;&amp;str, i32&gt; = HashMap::new();
     map.entry("zero").or_insert(0);
     map.entry("one").or_insert(1);
     map.entry("two").or_insert(2);
@@ -101,9 +101,10 @@ fn main() {
         mod_item.push('z');
         mod_item   // returning String, not str - this works
     });
-    let v:Vec::<String> = iter.collect();
+    let v:Vec::&lt;String&gt; = iter.collect();
     print!("\n  {:?}", v);
     putline();
 
     println!("\n  That's all Folks!\n");
 }
+</pre>
