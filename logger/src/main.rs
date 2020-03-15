@@ -1,5 +1,8 @@
 // logger::main.rs
 
+extern crate chrono;
+use chrono::{DateTime, Utc, Local};
+
 #[allow(unused_imports)]
 use display::{*};
 use std::fs::File;
@@ -35,6 +38,11 @@ impl Logger {
                 .append(true)
                 .open(s).ok();
     }
+    pub fn ts_write(&mut self, s:&str) {
+        let now: DateTime<Local> = Local::now();
+        print!("\n  {}", now);
+        Logger::write(self, s);
+    }
     pub fn write(&mut self, s:&str) {
         if let Some(ref mut fl) = self.fl {
             let _n = fl.write(s.as_bytes());
@@ -49,9 +57,9 @@ impl Logger {
 }
 #[derive(PartialEq)]
 #[allow(dead_code)]
-enum OpenMode { Truncate, Append }
+pub enum OpenMode { Truncate, Append }
 #[allow(dead_code)]
-fn open_file(s:&str, mode:OpenMode) -> Option<File> {
+pub fn open_file(s:&str, mode:OpenMode) -> Option<File> {
     let fl:Option<File>;
     use std::fs::OpenOptions;
     if mode == OpenMode::Truncate {
@@ -77,11 +85,12 @@ fn main() {
     sub_title("written to \"Log.txt\"");
 
     let file_name = "log.txt";
-    let f = open_file(file_name, OpenMode::Append);
+    let f:Option<File> = open_file(file_name, OpenMode::Append);
 
     let mut log = Logger::new();
     log.console(true);
     log.opt(f);
+    log.ts_write("\n  starting log");
     log.write("\n  first entry");
     log.write(", second entry");
     log.close();
@@ -91,6 +100,7 @@ fn main() {
     /*-- reopens logger with named file --*/
     log.open("log.txt");
     log.console(true);
+    log.ts_write("\n  reopening log");
     log.write("\n  after reopen");
 
     println!("\n\n  That's all Folks!\n");
