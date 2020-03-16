@@ -167,5 +167,14 @@ pub fn run() {
     let t = s;
     print!("\n  t:Box<f64> = {:?}", t);
     // print!("\n  s:Box<f64> = {:?}", s); // won't compile, s moved
+    println!();
 
+    let s = String::from("will be dropped");
+    print!("\n  {:?}", s);
+    drop(s);
+    ///////////////////////////////////////////////////////////
+    // statement below fails to compile because s was dropped
+    //print!("\n  trying to display s again: {:?}", s);   
+
+    print!("\n\n  That's all Folks!\n");
 }

@@ -20,8 +20,8 @@ fn main() {
     //debugformats::run();
     //demodrop::run();
     //env_probe::run();
-    probe_struct::run();
-    //ownership::run();
+    //probe_struct::run();
+    ownership::run();
     //types::run();
     print!("\n\n");
 }
