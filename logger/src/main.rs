@@ -1,7 +1,11 @@
-// logger::main.rs
+////////////////////////////////////////////////////////////
+/// logger::main.rs - log strings to file, console        //
+///                                                       //
+/// Jim Fawcett, https://JimFawcett.github,io, 3/16/2020  //
+////////////////////////////////////////////////////////////
 
 extern crate chrono;
-use chrono::{DateTime, Utc, Local};
+use chrono::{DateTime, Local};
 
 #[allow(unused_imports)]
 use display::{*};
@@ -15,21 +19,26 @@ pub struct Logger {
 }
 #[allow(dead_code)]
 impl Logger {
+    ///--- fl:None, console:true
     pub fn new() -> Self {
-        Self { fl:None, console:false, }
+        Self { fl:None, console:true, }
     }
+    ///--- set file, console
     pub fn init(&self, f:File, con:bool) -> Self {
         Self { fl:Some(f), console:con, }
     }
+    ///--- set console true | false
     pub fn console(&mut self, con:bool) {
         self.console = con
     }
+    ///--- set | reset file
     pub fn file(&mut self, f:File) {
         self.fl = Some(f);
     }
-    pub fn opt(&mut self, f:Option<File>) {
+    fn opt(&mut self, f:Option<File>) {
         self.fl = f;
     }
+    ///--- attempt to open logger file with filename s
     pub fn open(&mut self, s:&str) {
         use std::fs::OpenOptions;
         self.fl = OpenOptions::new()
@@ -38,11 +47,13 @@ impl Logger {
                 .append(true)
                 .open(s).ok();
     }
+    ///--- write s with time stamp
     pub fn ts_write(&mut self, s:&str) {
         let now: DateTime<Local> = Local::now();
         print!("\n  {}", now);
         Logger::write(self, s);
     }
+    ///--- write s
     pub fn write(&mut self, s:&str) {
         if let Some(ref mut fl) = self.fl {
             let _n = fl.write(s.as_bytes());
@@ -51,6 +62,7 @@ impl Logger {
             print!("{}", s);
         }
     }
+    ///--- close file
     pub fn close(&mut self) {
         self.fl = None;
     }
@@ -59,6 +71,7 @@ impl Logger {
 #[allow(dead_code)]
 pub enum OpenMode { Truncate, Append }
 #[allow(dead_code)]
+///--- attempt to open file with name str
 pub fn open_file(s:&str, mode:OpenMode) -> Option<File> {
     let fl:Option<File>;
     use std::fs::OpenOptions;
