@@ -1,0 +1,43 @@
+
+  first entry, second entry
+  after reopen
+  first entry, second entry
+  after reopen
+  first entry, second entry
+  after reopen
+  first entry, second entry
+  after reopen
+  first entry, second entry
+  after reopen
+  first entry, second entry
+  after reopen
+  starting log
+  first entry, second entry
+  after reopen
+  starting log
+  first entry, second entry
+  after reopen
+  starting log
+  first entry, second entry
+  reopening log
+  after reopen
+  starting log
+  first entry, second entry
+  reopening log
+  after reopen
+  starting log
+  first entry, second entry
+  reopening log
+  after reopen
+  starting log
+  first entry, second entry
+  reopening log
+  after reopen
+  starting log
+  first entry, second entry
+  reopening log
+  after reopen
+  starting log
+  first entry, second entry
+  reopening log
+  after reopen
