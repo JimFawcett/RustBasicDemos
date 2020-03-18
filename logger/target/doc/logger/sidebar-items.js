@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["OpenMode",""]],"fn":[["file_exists","`if file_exists(file_name) { ... }`"],["open_file",""],["remove_file","`if remove_file(file_name) { ... }`"]],"struct":[["Logger",""]]});
+initSidebarItems({"enum":[["OpenMode",""]],"fn":[["file_contains","`if file_contains(file_name, test_str) { ... }`"],["file_exists","`if file_exists(file_name) { ... }`"],["open_file",""],["remove_file","`if remove_file(file_name) { ... }`"]],"struct":[["Logger",""]]});

@@ -42,6 +42,15 @@ fn main() {
     log.console(true);
     log.ts_write("\n  reopening log");
     log.write("\n  after reopen");
-
+    log.close();
+    
+    let test_string = "first entry";
+    let b = file_contains(file_name, test_string);
+    if b {
+        print!("\n  found {} in {}", test_string, file_name);
+    }
+    else {
+        print!("\n did not find {} in {}", test_string, file_name);
+    }
     println!("\n\n  That's all Folks!\n");
 }

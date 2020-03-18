@@ -34,7 +34,7 @@ impl Logger {
     ///
     /// sets fl:Some(file), console:true;
     /// ```
-    pub fn init(&self, f:File, con:bool) -> Self {
+    pub fn init(f:File, con:bool) -> Self {
         Self { fl:Some(f), console:con, }
     }
     /// ```
@@ -119,12 +119,12 @@ impl Logger {
 pub enum OpenMode { Truncate, Append }
 #[allow(dead_code)]
 
-    /// ```
-    /// let f:Option<File> = open_file(some_string, Append);
-    ///
-    /// attempts to open file with specified OpenMode: Truncate | Append
-    /// ```
-    pub fn open_file(s:&str, mode:OpenMode) -> Option<File> {
+/// ```
+/// let f:Option<File> = open_file(some_string, Append);
+///
+/// attempts to open file with specified OpenMode: Truncate | Append
+/// ```
+pub fn open_file(s:&str, mode:OpenMode) -> Option<File> {
     let fl:Option<File>;
     use std::fs::OpenOptions;
     if mode == OpenMode::Truncate {
@@ -142,17 +142,29 @@ pub enum OpenMode { Truncate, Append }
     }
     fl
 }
-    /// ```
-    /// if remove_file(file_name) { ... }
-    /// ```
+/// ```
+/// if remove_file(file_name) { ... }
+/// ```
 pub fn remove_file(s:&str) -> bool {
     let rslt = std::fs::remove_file(s);
     rslt.is_ok()
 }
-    /// ```
-    /// if file_exists(file_name) { ... }
-    /// ```
-    pub fn file_exists(s:&str) -> bool {
+/// ```
+/// if file_contains(file_name, test_str) { ... }
+/// ```
+pub fn file_contains(fl:&str, ts:&str) -> bool {
+    let contents = std::fs::read_to_string(fl);
+    let mut s = "".to_string();
+    if contents.is_ok() {
+        s = contents.unwrap();
+        print!("\n  contents = {}", s);
+    }
+    s.contains(ts)
+}
+/// ```
+/// if file_exists(file_name) { ... }
+/// ```
+pub fn file_exists(s:&str) -> bool {
     let path = Path::new(s);
     return path.exists();
 }
@@ -160,6 +172,29 @@ pub fn remove_file(s:&str) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn test_open_file() {
+        let stest = "test_open.txt";
+        let mut l = Logger::new();
+        l.open(stest);
+        open_file(stest, OpenMode::Truncate);
+        assert_eq!(file_exists(stest),true);
+        remove_file(stest);
+        assert_eq!(file_exists(stest),false);
+    }
+    #[test]
+    fn test_file_contains() {
+        let stest = "test_contains.txt";
+        let mut l = Logger::new();
+        l.open(stest);
+        assert_eq!(l.fl.is_some(), true);
+        l.write("test contents with a short string");
+        l.close();
+        assert_eq!(file_exists(stest), true);
+        assert_eq!(file_contains(stest, "a short"), true);
+        remove_file(stest);
+        assert_eq!(file_exists(stest),false);
+    }
     #[test]
     fn test_remove_file() {
         let stest = "test_remove";
@@ -177,6 +212,86 @@ mod tests {
         let mut l = Logger::new();
         l.open(stest);
         assert_eq!(file_exists(stest), true);
+        remove_file(stest);
+        assert_eq!(file_exists(stest), false);
+    }
+    #[test]
+    fn test_init() {
+        let stest = "test_new";
+        let opt = open_file(stest, OpenMode::Append);
+        let mut l = Logger::init(opt.unwrap(), false);
+        l.open(stest);
+        assert_eq!(file_exists(stest), true);
+        remove_file(stest);
+        assert_eq!(file_exists(stest), false);
+    }
+    #[test]
+    fn test_console() {
+        let mut l = Logger::new();
+        assert_eq!(l.console == true, true);
+        l.console(false);
+        assert_eq!(l.console == false, true);
+    }
+    #[test]
+    fn test_file() {
+        let mut l = Logger::new();
+        let stest = "test_file";
+        l.file(open_file(stest, OpenMode::Append).unwrap());
+        assert_eq!(file_exists(stest), true);
+        remove_file(stest);
+        assert_eq!(file_exists(stest), false);
+    }
+    #[test]
+    fn test_opt() {
+        let mut l = Logger::new();
+        let stest = "test_file";
+        let file_opt = open_file(stest, OpenMode::Append);
+        l.opt(file_opt);
+        assert_eq!(file_exists(stest), true);
+        remove_file(stest);
+        assert_eq!(file_exists(stest), false);
+    }
+    #[test]
+    fn test_open() {
+        let mut l = Logger::new();
+        let stest = "test_open";
+        l.open(stest);
+        assert_eq!(file_exists(stest), true);
+        remove_file(stest);
+        assert_eq!(file_exists(stest), false);
+    }
+    #[test]
+    fn test_write() {
+        let mut l = Logger::new();
+        let stest = "test_write";
+        l.open(stest);
+        let stxt = "abc 012 xyz 789";
+        l.write(stxt);
+        assert_eq!(file_contains(stest, stxt), true);
+        remove_file(stest);
+        assert_eq!(file_exists(stest), false);
+    }
+    #[test]
+    fn test_ts_write() {
+        let mut l = Logger::new();
+        let stest = "test_ts_write";
+        l.open(stest);
+        let sdt = "2020";  // change if year != 2020
+        let stxt = "abc 012 xyz 789";
+        l.ts_write(stxt);
+        assert_eq!(file_contains(stest,sdt), true);
+        assert_eq!(file_contains(stest, stxt), true);
+        remove_file(stest);
+        assert_eq!(file_exists(stest), false);
+    }
+    #[test]
+    fn test_close() {
+        let mut l = Logger::new();
+        let stest = "test_close.txt";
+        l.open(stest);
+        assert_eq!(l.fl.is_some(), true);
+        l.close();
+        assert_eq!(l.fl.is_none(), true);
         remove_file(stest);
         assert_eq!(file_exists(stest), false);
     }
