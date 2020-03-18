@@ -1,7 +1,0 @@
-
-  Tue, 17 Mar 2020 20:25:39
-  starting log
-  first entry, second entry, third entry
-  Tue, 17 Mar 2020 20:25:39
-  reopening log
-  after reopen

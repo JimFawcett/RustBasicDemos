@@ -1,4 +1,4 @@
-/// ////////////////////////////////////////////////////////
+<pre>/// ////////////////////////////////////////////////////////
 /// logger::lib.rs - log strings to file, console         //
 ///                                                       //
 /// Jim Fawcett, https://JimFawcett.github,io, 3/16/2020  //
@@ -16,7 +16,7 @@ use std::io::prelude::*;
 
 #[derive(Debug)]
 pub struct Logger {
-    fl:Option<File>,
+    fl:Option&lt;File&gt;,
     console:bool,
 }
 #[allow(dead_code)]
@@ -26,7 +26,7 @@ impl Logger {
     ///
     /// sets fl:None, console:true;
     /// ```
-    pub fn new() -> Self {
+    pub fn new() -&gt; Self {
         Self { fl:None, console:true, }
     }
     /// ```
@@ -34,7 +34,7 @@ impl Logger {
     ///
     /// sets fl:Some(file), console:true;
     /// ```
-    pub fn init(f:File, con:bool) -> Self {
+    pub fn init(f:File, con:bool) -&gt; Self {
         Self { fl:Some(f), console:con, }
     }
     /// ```
@@ -42,7 +42,7 @@ impl Logger {
     ///
     /// sets console:pred;
     /// ```
-    pub fn console(&mut self, con:bool) {
+    pub fn console(&amp;mut self, con:bool) {
         self.console = con
     }
     /// ```
@@ -50,7 +50,7 @@ impl Logger {
     ///
     /// sets | resets fl:Some(file);
     /// ```
-    pub fn file(&mut self, f:File) {
+    pub fn file(&amp;mut self, f:File) {
         self.fl = Some(f);
     }
     /// ```
@@ -58,7 +58,7 @@ impl Logger {
     ///
     /// sets | resets fl:opt;
     /// ```
-    pub fn opt(&mut self, f:Option<File>) {
+    pub fn opt(&amp;mut self, f:Option&lt;File&gt;) {
         self.fl = f;
     }
     /// ```
@@ -66,7 +66,7 @@ impl Logger {
     ///
     /// attempts to set fl:Some(file)
     /// ```
-    pub fn open(&mut self, s:&str) {
+    pub fn open(&amp;mut self, s:&amp;str) {
         use std::fs::OpenOptions;
         self.fl = OpenOptions::new()
                 .write(true)
@@ -79,15 +79,15 @@ impl Logger {
     ///
     /// writes local time stamp and some_str to log, can be chained
     /// ```
-    pub fn ts_write(&mut self, s:&str) -> &mut Self {
+    pub fn ts_write(&amp;mut self, s:&amp;str) -&gt; &amp;mut Self {
         
-        let now: DateTime<Local> = Local::now();
+        let now: DateTime&lt;Local&gt; = Local::now();
         /* format DateTime string */
         let mut now_str = format!("\n  {}", now.to_rfc2822());
         /* remove trailing -0400 */
         now_str.truncate(now_str.len() - 6);
 
-        Logger::write(self, &now_str);
+        Logger::write(self, &amp;now_str);
         Logger::write(self, s);
         self
     }
@@ -96,9 +96,9 @@ impl Logger {
     ///
     /// writes some_str to log, can be chained
     /// ```
-    pub fn write(&mut self, s:&str) -> &mut Self {
-        if let Some(ref mut f) = self.fl {
-            let _n = f.write(s.as_bytes());
+    pub fn write(&amp;mut self, s:&amp;str) -&gt; &amp;mut Self {
+        if let Some(ref mut fl) = self.fl {
+            let _n = fl.write(s.as_bytes());
         }
         if self.console {
             print!("{}", s);
@@ -110,7 +110,7 @@ impl Logger {
     ///
     /// sets fl:None
     /// ```
-    pub fn close(&mut self) {
+    pub fn close(&amp;mut self) {
         self.fl = None;
     }
 }
@@ -120,12 +120,12 @@ pub enum OpenMode { Truncate, Append }
 #[allow(dead_code)]
 
 /// ```
-/// let f:Option<File> = open_file(some_string, Append);
+/// let f:Option&lt;File&gt; = open_file(some_string, Append);
 ///
 /// attempts to open file with specified OpenMode: Truncate | Append
 /// ```
-pub fn open_file(s:&str, mode:OpenMode) -> Option<File> {
-    let fl:Option<File>;
+pub fn open_file(s:&amp;str, mode:OpenMode) -&gt; Option&lt;File&gt; {
+    let fl:Option&lt;File&gt;;
     use std::fs::OpenOptions;
     if mode == OpenMode::Truncate {
         fl = OpenOptions::new()
@@ -145,14 +145,14 @@ pub fn open_file(s:&str, mode:OpenMode) -> Option<File> {
 /// ```
 /// if remove_file(file_name) { ... }
 /// ```
-pub fn remove_file(s:&str) -> bool {
+pub fn remove_file(s:&amp;str) -&gt; bool {
     let rslt = std::fs::remove_file(s);
     rslt.is_ok()
 }
 /// ```
 /// if file_contains(file_name, test_str) { ... }
 /// ```
-pub fn file_contains(fl:&str, ts:&str) -> bool {
+pub fn file_contains(fl:&amp;str, ts:&amp;str) -&gt; bool {
     let contents = std::fs::read_to_string(fl);
     let mut s = "".to_string();
     if contents.is_ok() {
@@ -164,7 +164,7 @@ pub fn file_contains(fl:&str, ts:&str) -> bool {
 /// ```
 /// if file_exists(file_name) { ... }
 /// ```
-pub fn file_exists(s:&str) -> bool {
+pub fn file_exists(s:&amp;str) -&gt; bool {
     let path = Path::new(s);
     return path.exists();
 }
@@ -296,3 +296,4 @@ mod tests {
         assert_eq!(file_exists(stest), false);
     }
 }
+</pre>
