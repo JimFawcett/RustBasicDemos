@@ -34,6 +34,14 @@ fn main() {
     log.write("\n  first entry").write(", second entry");
     log.write(", third entry");
     log.close();
+    putline();
+    
+    let s = format!("contents of {}", file_name);
+    sub_title(&s);
+    file_contents(file_name);
+    putline();
+
+    sub_title("closing then reopening log");
     log.console(false);
     /*-- won't write, won't panic --*/
     log.write("\n  after close");
@@ -47,10 +55,10 @@ fn main() {
     let test_string = "first entry";
     let b = file_contains(file_name, test_string);
     if b {
-        print!("\n  found {} in {}", test_string, file_name);
+        print!("\n  found {:?} in {:?}", test_string, file_name);
     }
     else {
-        print!("\n did not find {} in {}", test_string, file_name);
+        print!("\n did not find {:?} in {:?}", test_string, file_name);
     }
     println!("\n\n  That's all Folks!\n");
 }

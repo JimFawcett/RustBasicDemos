@@ -1,8 +1,7 @@
-/// ////////////////////////////////////////////////////////
-/// logger::lib.rs - log strings to file, console         //
-///                                                       //
-/// Jim Fawcett, https://JimFawcett.github,io, 3/16/2020  //
-/// ////////////////////////////////////////////////////////
+/// -------------------------------------------------------
+/// logger::lib.rs - log strings to file, console         
+/// Jim Fawcett, https://JimFawcett.github,io, 3/16/2020  
+/// -------------------------------------------------------
 
 extern crate chrono;
 #[allow(unused_imports)]
@@ -66,18 +65,22 @@ impl Logger {
     ///
     /// attempts to set fl:Some(file)
     /// ```
-    pub fn open(&mut self, s:&str) {
+    pub fn open(&mut self, s:&str) -> bool {
         use std::fs::OpenOptions;
         self.fl = OpenOptions::new()
                 .write(true)
                 .create(true)
                 .append(true)
                 .open(s).ok();
+        if self.fl.is_some() {
+            return true;
+        }
+        false
     }
     /// ```
     /// logr.ts_write(some_str);
     ///
-    /// writes local time stamp and some_str to log, can be chained
+    /// writes local time stamp and some_str to log
     /// ```
     pub fn ts_write(&mut self, s:&str) -> &mut Self {
         
@@ -87,21 +90,25 @@ impl Logger {
         /* remove trailing -0400 */
         now_str.truncate(now_str.len() - 6);
 
-        Logger::write(self, &now_str);
-        Logger::write(self, s);
-        self
+        let _ = Logger::write(self, &now_str);
+        let rslt = Logger::write(self, s);
+        rslt
     }
     /// ```
     /// logr.write(some_str);
     ///
-    /// writes some_str to log, can be chained
+    /// writes some_str to log
     /// ```
     pub fn write(&mut self, s:&str) -> &mut Self {
-        if let Some(ref mut f) = self.fl {
-            let _n = f.write(s.as_bytes());
-        }
         if self.console {
             print!("{}", s);
+        }
+        if let Some(ref mut f) = self.fl {
+            let rslt = f.write(s.as_bytes());
+            match rslt {
+                Ok(_) => {},
+                Err(_) => print!("\n  file write failed\n"),
+            }
         }
         self
     }
@@ -157,9 +164,23 @@ pub fn file_contains(fl:&str, ts:&str) -> bool {
     let mut s = "".to_string();
     if contents.is_ok() {
         s = contents.unwrap();
-        print!("\n  contents = {}", s);
     }
     s.contains(ts)
+}
+/// ```
+/// file_contents(file_name, test_str) { ... }
+/// 
+/// display contents of file
+/// ```
+pub fn file_contents(fl:&str) {
+    let contents = std::fs::read_to_string(fl);
+     if contents.is_ok() {
+        let s = contents.unwrap();
+        print!("{}", s);
+     }
+     else {
+         print!("\n  no contents");
+     }
 }
 /// ```
 /// if file_exists(file_name) { ... }
@@ -266,7 +287,7 @@ mod tests {
         let stest = "test_write";
         l.open(stest);
         let stxt = "abc 012 xyz 789";
-        l.write(stxt);
+        let _ = l.write(stxt);
         assert_eq!(file_contains(stest, stxt), true);
         remove_file(stest);
         assert_eq!(file_exists(stest), false);
@@ -278,7 +299,7 @@ mod tests {
         l.open(stest);
         let sdt = "2020";  // change if year != 2020
         let stxt = "abc 012 xyz 789";
-        l.ts_write(stxt);
+        let _ = l.ts_write(stxt);
         assert_eq!(file_contains(stest,sdt), true);
         assert_eq!(file_contains(stest, stxt), true);
         remove_file(stest);
