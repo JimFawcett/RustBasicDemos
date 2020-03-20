@@ -70,6 +70,23 @@ impl Logger {
         self.fl = OpenOptions::new()
                 .write(true)
                 .create(true)
+                .truncate(true)
+                .open(s).ok();
+        if self.fl.is_some() {
+            return true;
+        }
+        false
+    }
+    /// ```
+    /// logr.open_append(file_name);
+    ///
+    /// attempts to set fl:Some(file)
+    /// ```
+    pub fn open_append(&mut self, s:&str) -> bool {
+        use std::fs::OpenOptions;
+        self.fl = OpenOptions::new()
+                .write(true)
+                .create(true)
                 .append(true)
                 .open(s).ok();
         if self.fl.is_some() {
@@ -110,6 +127,9 @@ impl Logger {
                 Err(_) => print!("\n  file write failed\n"),
             }
         }
+        // else {
+        //     print!("\n  no attached file");
+        // }
         self
     }
     /// ```
@@ -146,6 +166,9 @@ pub fn open_file(s:&str, mode:OpenMode) -> Option<File> {
              .create(true)
              .append(true)
              .open(s).ok();
+    }
+    if let None = fl {
+        print!("\n\n  can't open {:?}\n", s);
     }
     fl
 }
