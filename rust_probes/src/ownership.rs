@@ -121,6 +121,9 @@ pub fn run() {
     //   rt.push_str(" and still more");
     t.push_str(" and again more stuff");
     print!("\n  t = {}", t);
+    drop(t);
+    // statement below fails to compile, t dropped
+    // t.push('s');
 
     /*-- tuple with string member --*/
     let x = (1, 1.5, "a string".to_string());  // x.2 is not blittable
@@ -175,6 +178,20 @@ pub fn run() {
     ///////////////////////////////////////////////////////////
     // statement below fails to compile because s was dropped
     //print!("\n  trying to display s again: {:?}", s);   
+  
+    /*-----------------------------------------------------*/
+    print!("\n\n  -- demo dropping reference restores owners ability to mutate --\n");
+    let mut x = 2;
+    let r = &mut x;
+    *r = 3;
+    //---------------------------------
+    // state below fails to compile
+    // x = 4;  // owner can't mutate borrowed value
+
+    print!("\n  r = {}", r);
+    drop(r);
+    x += 2;  // x's ability to mutate restored
+    print!("\n  x = {}", x);
 
     print!("\n\n  That's all Folks!\n");
 }

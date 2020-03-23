@@ -211,6 +211,23 @@ fn main() {
     demo.insert("two".to_string(), 2);
     putln(&"let mut demo :HashMap<String, i32> = HashMap::new();");
     log(&demo);
+    demo.entry("three".to_string()).or_insert(4);
+    show_value(&demo);
+    demo.entry("three".to_string()).and_modify(|e| *e = 3);
+    show_value(&demo);
+    demo.entry("four".to_string()).or_insert(4);
+    show_value(&demo);
+    demo.entry("five".to_owned()).or_insert(6);
+    show_value(&demo);
+    demo.insert("five".to_string(), 5);
+    show_value(&demo);
+    if demo.contains_key("five") {
+        show_value(&"has key five");
+    }
+    else {
+        show_value(&"does not have key five");
+    }
+
     putline();
     
     /* type aliases */
