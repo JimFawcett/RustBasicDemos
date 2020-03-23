@@ -15,7 +15,7 @@ pub fn run () {
     let a:[f32; 5] = [1.0, 1.5, 2.0, 1.5, 1.0];
     let t:(i32, f64, String) = (1, 2.0, "three".to_string());
     #[derive(Debug)]
-    struct S{i:i32, s:&'static str, };
+    struct S<'a>{i:i32, s:&'a str, };
     let s:S = S{i:15, s:"a literal string" };
     #[derive(Debug)]
     enum E {BS(String), MS(String), PhD(String),};

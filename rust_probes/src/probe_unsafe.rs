@@ -12,9 +12,18 @@ trait Show : Debug {  // trait fns are public
         print!("\n  {:?}", &self);
     }
 }
-#[derive(Debug)]
+trait Size {
+    fn size(&self) -> usize;
+}
+#[derive(Debug, Copy, Clone)]
 struct Test { x:i32, y:f64, }
 impl Show for Test {}
+impl Size for Test {   // must provide impl
+    fn size(&self) -> usize {
+        use std::mem;
+        mem::size_of::<Test>()
+    }
+}
 impl Test {
     pub fn new() -> Self {
         Self {
@@ -30,20 +39,22 @@ pub fn run () {
     sub_title("exploring struct layout with safe pointers");
     let mut t = Test::new();
     t.show();
-    shows("\n  Note: Test implements traits Show and Debug\n");
+    shows("\n  Note: Test implements traits:");
+    shows("\n        Show, Size, Debug, Copy, Clone");
+    shows("\n        Missing 4 bytes is ptr to traits vtable.\n");
     let rt = &t as *const Test;
     let rx = &t.x as *const i32;
     let ry = &mut t.y as *mut f64;
-    let sz = std::mem::size_of::<Test>();
+    let st = std::mem::size_of::<Test>();
     let sx = std::mem::size_of::<i32>();
     let sy = std::mem::size_of::<f64>();
     print!("\n  address of t   = {:?}", rt as i32);
     print!("\n  address of t.x = {:?}", rx as i32);
     print!("\n  address of t.y = {:?}", ry as i32);
-    print!("\n  size of t      = {:?}", sz);
+    print!("\n  size of t      = {:?}", st);
     print!("\n  size of x      = {:?}", sx);
     print!("\n  size of y      = {:?}", sy);
-    print!("\n  size of t + sz = {:?}", rt as i32 + sz as i32);
+    print!("\n  address of t + st = {:?}", rt as i32 + st as i32);
     putline();
 
     sub_title("mutating struct with unsafe pointer");
