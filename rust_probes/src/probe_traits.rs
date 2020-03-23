@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////////
-// probe_structs.rs - demo user defined type               //
+// probe_traits.rs - demo user defined traits              //
 //                                                         //
 // Jim Fawcett, https://JimFawcett.github.io, 22 Mar 2020  //
 /////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ trait Size {
     fn size(&self) -> usize;
 }
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub struct Test { // public type 
     x:i32, y:f64, // private data
 }
@@ -104,5 +104,26 @@ pub fn run () {
     let sy = t.y.size();
     print!("\n  size of x = {}, size of y = {}", sx, sy);
     print!("\n  remaining 4 bytes is size of pointer to trait vtable");
+    putline();
+
+    sub_title("exploring struct layout with safe pointers");
+    let mut t = Test::new();
+    t.show();
+    shows("\n  Note: Test implements traits:");
+    shows("\n        Show, Size, Debug, Copy, Clone");
+    shows("\n        Missing 4 bytes is ptr to traits vtable.\n");
+    let rt = &t as *const Test;
+    let rx = &t.x as *const i32;
+    let ry = &mut t.y as *mut f64;
+    let st = std::mem::size_of::<Test>();
+    let sx = std::mem::size_of::<i32>();
+    let sy = std::mem::size_of::<f64>();
+    print!("\n  address of t   = {:?}", rt as i32);
+    print!("\n  address of t.x = {:?}", rx as i32);
+    print!("\n  address of t.y = {:?}", ry as i32);
+    print!("\n  size of t      = {:?}", st);
+    print!("\n  size of x      = {:?}", sx);
+    print!("\n  size of y      = {:?}", sy);
+    print!("\n  address of t + st = {:?}", rt as i32 + st as i32);
     putline();
 }
