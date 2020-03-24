@@ -11,3 +11,4 @@ doctest = false
 
 [dependencies]
 component_a = { path = "../component_a" }
+display = { path = "../../display" }

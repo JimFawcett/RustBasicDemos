@@ -10,3 +10,4 @@ edition = "2018"
 doctest = false
 
 [dependencies]
+display = { path = "../../display" }

@@ -26,6 +26,9 @@ impl ComponentB {
     pub fn set_msg(&mut self, m:&str) {
         self.msg = m.to_string();
     }
+    pub fn get_msg(&self) -> String {
+        self.msg.clone()
+    }
     pub fn get_comp_a(&self) -> Box<dyn TCompA> {
         get_instance()
     }
@@ -49,10 +52,17 @@ mod tests {
         assert_eq!(b.msg,"a message".to_string());
     }
     #[test]
+    fn test_get_msg() {
+        let mut b = ComponentB::new();
+        b.set_msg("a test message");
+        let msg = b.get_msg();
+        assert_eq!(msg,b.msg);
+    }
+    #[test]
     fn test_get_a() {
         let b = ComponentB::new();
-        let my_a = b.get_comp_a();
-        let inst_a = get_instance();
-        assert_eq!(my_a.get_msg(), inst_a.get_msg());
+        let my_b = b.get_comp_a();
+        let inst_b = get_instance();
+        assert_eq!(my_b.get_msg(), inst_b.get_msg());
     }
 }

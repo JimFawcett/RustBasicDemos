@@ -1,12 +1,24 @@
-// code_structure::component_a
+/*-----------------------------------------------
+   code_structure_demo::component_a::ComponentA
+   - implements trait TCompA
+*/
 
 /*-----------------------------------------------
    trait TCompA will be used as an interface for
-   component_a
+   ComponentA
 */
 pub trait TCompA {
     fn do_work(&self);
     fn get_msg(&self) -> String;
+    fn set_msg(&mut self, m:&str);
+}
+/*-----------------------------------------------
+   Factory function
+*/
+#[allow(dead_code)]
+pub fn get_instance() -> Box<dyn TCompA> {
+    let a = ComponentA::new();
+    Box::new(a)
 }
 /*-----------------------------------------------
    ComponentA - demonstrate interface and factory
@@ -28,9 +40,12 @@ impl TCompA for ComponentA {
     fn get_msg(&self) -> String {
         self.msg.clone()
     }
+    fn set_msg(&mut self, m:&str) {
+        self.msg = m.to_string();
+    }
 }
 /*-----------------------------------------------
-   Implements ComponentA methods
+   Implement ComponentA methods
 */
 #[allow(dead_code)]
 impl ComponentA {
@@ -40,18 +55,15 @@ impl ComponentA {
             msg : "no message".to_string(),
         }
     }
-    pub fn set_msg(&mut self, m:&str) {
-        self.msg = m.to_string();
-    }
 }
-/*-----------------------------------------------
-   Factory function
-*/
-#[allow(dead_code)]
-pub fn get_instance() -> Box<dyn TCompA> {
-    let a = ComponentA::new();
-    Box::new(a)
-}
+// /*-----------------------------------------------
+//    Factory function
+// */
+// #[allow(dead_code)]
+// pub fn get_instance() -> Box<dyn TCompA> {
+//     let a = ComponentA::new();
+//     Box::new(a)
+// }
 /*-----------------------------------------------
    Unit tests
 */
