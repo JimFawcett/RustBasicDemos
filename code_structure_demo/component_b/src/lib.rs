@@ -1,8 +1,11 @@
 /*-----------------------------------------------
-   code_structure::component_b::ComponentB
+   code_structure_demo::component_b::ComponentB
    - aggregates instance of ComponentA as TCompA
 */
-use component_a::{ TCompA, get_instance };
+use component_a::{ 
+    TCompA,       // trait
+    get_instance  // factory
+};
 
 /*-----------------------------------------------
    ComponentB

@@ -1,1 +1,0 @@
-C:\github\JimFawcett\RustBasicDemos\code_structure_demo\component_b\target\debug\component_b-f32d2aa01b1645a8.exe: C:\github\JimFawcett\RustBasicDemos\code_structure_demo\component_a\src\lib.rs C:\github\JimFawcett\RustBasicDemos\code_structure_demo\component_b\src\lib.rs

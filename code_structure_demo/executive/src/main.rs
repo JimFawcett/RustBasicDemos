@@ -3,9 +3,6 @@
    - uses component_a and component_b
 */
 
-extern crate component_a;
-extern crate component_b;
-
 use component_a::{get_instance};
 use component_b::{*};
 use display::{*};

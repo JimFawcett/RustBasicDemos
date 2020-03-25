@@ -1,7 +1,8 @@
 // demo.rs - demo ComponentA
 
 extern crate component_a;
-
+// mod t_comp_a;
+// use t_comp_a::{TCompA};
 use component_a::{*};
 use display::{*};
 

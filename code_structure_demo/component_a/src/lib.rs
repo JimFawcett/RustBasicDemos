@@ -3,6 +3,8 @@
    - implements trait TCompA
 */
 
+// mod t_comp_a;
+// use t_comp_a::{TCompA};
 /*-----------------------------------------------
    trait TCompA will be used as an interface for
    ComponentA
@@ -17,8 +19,7 @@ pub trait TCompA {
 */
 #[allow(dead_code)]
 pub fn get_instance() -> Box<dyn TCompA> {
-    let a = ComponentA::new();
-    Box::new(a)
+        Box::new(ComponentA::new())  
 }
 /*-----------------------------------------------
    ComponentA - demonstrate interface and factory
@@ -53,7 +54,7 @@ impl ComponentA {
         Self {
             name : "ComponentA".to_string(),
             msg : "no message".to_string(),
-        }
+        }       
     }
 }
 // /*-----------------------------------------------
