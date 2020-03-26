@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////
 // display::lib.rs - Demonstrate display types             //
 //                                                         //
-// Jim Fawcett, https://JimFawcett.github.io, 14 Feb 2020  //
+// Jim Fawcett, https://JimFawcett.github.io, 25 Mar 2020  //
 /////////////////////////////////////////////////////////////
 /*
    log and do_work are derived from:
@@ -21,28 +21,38 @@ pub fn shows<S: Into<String>>(s:S) {
     print!("{}",s.into());
 }
 /*-------------------------------------------------------------
-   Display message and value on console
+   Display message and value
    - no automatic newline
 */
 pub fn show<T: Debug>(msg:&str, t:&T) {
     print!("{}{:?}", msg, t);
 }
+pub fn str_show<T: Debug>(msg:&str, t:&T) -> String {
+    format!("{}{:?}", msg, t)
+}
 /*------------------------------------------------------------- 
-   show value on console
+   show value
    - expects T to implement Debug
 */
 pub fn show_value<T: Debug>(value: &T) {
     print!("\n  value: {:?}", value);
 }
+pub fn str_show_value<T: Debug>(value: &T) -> String {
+    format!("\n  value: {:?}", value)
+}
 /*------------------------------------------------------------- 
-   show type name on console
+   show type name
 */
 pub fn show_type<T>(_value: &T) {
     let name = std::any::type_name::<T>();
     print!("\n  TypeId: {}, size: {}", name, size_of::<T>());
 }
+pub fn str_show_type<T>(_value: &T) -> String {
+    let name = std::any::type_name::<T>();
+    format!("\n  TypeId: {}, size: {}", name, size_of::<T>())
+}
   /*------------------------------------------------------------- 
-   show type name and value on console
+   show type name and value
    - expects T to implement Debug
    - see #[define(Debug)] attributes, above 
 */
@@ -51,10 +61,20 @@ pub fn log<T: Debug>(value: &T) {
     print!("\n  TypeId: {}, size: {}", name, size_of::<T>());
     print!("\n  value:  {:?}", value);
   }
+  pub fn str_log<T: Debug>(value: &T) -> String {
+    let name = type_name::<T>();
+    let mut st = format!("\n  TypeId: {}, size: {}", name, size_of::<T>());
+    let st1 = format!("\n  value:  {:?}", value);
+    st.push_str(&st1);
+    st.clone()
+  }
   
 /*------------------------------------------------------------- 
-   log type name and value to console
+   log type name and value
    - expects T to implement Debug
+
+   This function is deprecated.  Its here to avoid breaking
+   older code.
 */
 pub fn slog<T: Any + Debug>(value: &T) {
     let value_any = value as &dyn Any;
@@ -114,7 +134,7 @@ pub fn putlinen(n: usize) {
 ///////////////////////////////////////////////////////////////
 // display::main.rs tests - Demonstrate display types        //
 //                                                           //
-// Jim Fawcett, https://JimFawcett.github.io, 14 Feb 2020    //
+// Jim Fawcett, https://JimFawcett.github.io, 25 Mar 2020    //
 ///////////////////////////////////////////////////////////////
 
 #[cfg(test)]
@@ -132,27 +152,33 @@ mod tests {
        Library doesn't write to console, so all this tests is that
        no panic occurred.  See test_display for useful tests.
     */
-    fn test_types() {
-        main_title("test types");
+    fn test_show_type() {
         let mut str = String::new();
         str.push_str("a string");
-        shows("\n  showing type and value:");
-        show_type(&str);
-        show_value(&str);
+        assert_eq!(str_show_type(&str).contains("TypeId:"), true);
+    }
+    #[test]
+    fn test_show_value() {
+        let mut str = String::new();
+        str.push_str("a string");
+        assert_eq!(str_show_value(&str).contains("value:"), true);
+    }
+    #[test]
+    fn test_log() {
         let an_i8: i8 = 100;
-        log(&an_i8);
+        assert_eq!(str_log(&an_i8).contains("100"), true);
         let mut vi : Vec<i32> = Vec::new();
         vi.push(-1);
         vi.push(0);
         vi.push(1);
-        log(&vi);
+        assert_eq!(str_log(&vi).contains("1]"), true);
         #[derive(Debug)]
         enum Test { Test1, Test2, };
         log(&Test::Test1);
         log(&Test::Test2);
         let point = Point { x:1.0, y:1.5, z:2.0 };
         log(&point);
-        assert_eq!(1, 1);
+        assert_eq!(str_log(&point).contains("2.0 }"), true);
         sub_title("that's all folks!");
     }
 }
