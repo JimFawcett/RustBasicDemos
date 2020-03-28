@@ -38,7 +38,9 @@ pub fn run () {
 
     sub_title("exploring struct layout with safe pointers");
     let mut t = Test::new();
+    let u = t;  // copy of t, t not moved
     t.show();
+    u.show();
     shows("\n  Note: Test implements traits:");
     shows("\n        Show, Size, Debug, Copy, Clone");
     shows("\n        Missing 4 bytes is ptr to traits vtable.\n");

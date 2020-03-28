@@ -2,12 +2,12 @@
 # It is not intended for manual editing.
 [[package]]
 name = "display"
-version = "0.1.0"
+version = "0.1.1"
 
 [[package]]
 name = "test_rust"
 version = "0.1.0"
 dependencies = [
- "display 0.1.0",
+ "display 0.1.1",
 ]
 

@@ -23,8 +23,8 @@ fn main() {
     //demodrop::run();
     //env_probe::run();
     //probe_struct::run();
-    probe_traits::run();
-    //probe_unsafe::run();
+    //probe_traits::run();
+    probe_unsafe::run();
     //ownership::run();
     //types::run();
     print!("\n\n");
