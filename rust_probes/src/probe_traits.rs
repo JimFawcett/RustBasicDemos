@@ -37,8 +37,7 @@ pub struct Test { // public type
 impl Show for Test {}  // using default impl
 impl Size for Test {   // must provide impl
     fn size(&self) -> usize {
-        use std::mem;
-        mem::size_of::<Test>()
+        std::mem::size_of::<Test>()
     }
 }
 /*-----------------------------------------------
@@ -103,7 +102,7 @@ pub fn run () {
     let sx = t.x.size();
     let sy = t.y.size();
     print!("\n  size of x = {}, size of y = {}", sx, sy);
-    print!("\n  remaining 4 bytes is size of pointer to trait vtable");
+    print!("\n  remaining 4 bytes is padding for alignment");
     putline();
 
     sub_title("exploring struct layout with safe pointers");
@@ -111,7 +110,7 @@ pub fn run () {
     t.show();
     shows("\n  Note: Test implements traits:");
     shows("\n        Show, Size, Debug, Copy, Clone");
-    shows("\n        Missing 4 bytes is ptr to traits vtable.\n");
+    shows("\n        Missing 4 bytes is padding for alignment.\n");
     let rt = &t as *const Test;
     let rx = &t.x as *const i32;
     let ry = &mut t.y as *mut f64;
