@@ -20,7 +20,7 @@ pub fn run() {
        Blitables are values that can be copied by copying
        their bits.
        - primitive types
-       - arrays
+       - arrays of blittable are blittable
        - tuples and structs with blittable fields
        - literal strings
        They have no resources stored on heap, so no cleanup

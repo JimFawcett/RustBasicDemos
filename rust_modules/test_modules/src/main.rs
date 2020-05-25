@@ -22,7 +22,7 @@ fn main() {
     say2();
     mod1::say();
     mod2::say();
-    module1::module1::say();  // does'nt need any imports
+    module1::module1::say();  // doesn't need any imports
     module2::module2::say();
     print!("\n  Hello from test_modules\n\n");
 }

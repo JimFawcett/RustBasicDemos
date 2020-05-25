@@ -1,4 +1,12 @@
-// struct_probes::main.rs
+/////////////////////////////////////////////////////////////
+// struct_probes::main.rs - Demonstrates:                  //
+//   - three types of struct                               //
+//   - implementing methods including getters and setters  //
+//   - implementing traits for structures                  //
+//   - structs with enum fields                            //
+//                                                         //
+// Jim Fawcett, https://JimFawcett.github.io, 25 May 2020  //
+/////////////////////////////////////////////////////////////
 
 #[allow(unused_imports)]
 use display::{*};

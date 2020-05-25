@@ -30,12 +30,12 @@ fn put_str(s:&String) {
 }
 /*-----------------------------------------------------------
    Note:
-   Strings hold utf8 characters, which vary in size, so you
+   Strings hold utf8 characters, which vary in size, so
    you can't directly index String instances.
 */
 #[allow(dead_code)]
 pub fn at(s:&String, i:usize) -> char {
-  s.chars().nth(i).unwrap()
+  s.chars().nth(i).unwrap()  // linear time operation
 }
 /*-----------------------------------------------------------
    note: 
