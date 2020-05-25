@@ -1,7 +1,10 @@
-/*-----------------------------------------------
+/*-----------------------------------------------------------
    code_structure_demo::component_b::ComponentB
    - aggregates instance of ComponentA as TCompA
-*/
+
+   Jim Fawcett, https://JimFawcett.github.io, 23 Mar 2020   
+-----------------------------------------------------------*/
+
 use component_a::{ 
     TCompA,       // trait
     get_instance  // factory

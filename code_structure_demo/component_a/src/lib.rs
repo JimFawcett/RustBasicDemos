@@ -1,7 +1,10 @@
-/*-----------------------------------------------
+/*-----------------------------------------------------------
    code_structure_demo::component_a::ComponentA
    - implements trait TCompA
-*/
+
+   Jim Fawcett, https://JimFawcett.github.io, 23 Mar 2020   
+-----------------------------------------------------------*/
+
 
 // mod t_comp_a;
 // use t_comp_a::{TCompA};

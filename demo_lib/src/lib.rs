@@ -3,14 +3,18 @@
 //                                                         //
 // Jim Fawcett, https://JimFawcett.github.io, 24 Feb 2020  //
 /////////////////////////////////////////////////////////////
-
+/*
+   Demonstrate with cargo test -q command
+*/
 pub fn libsay() {
     print!("\n  hello from demo_lib");
 }
 #[cfg(test)]
 mod tests {
+    use super::*;
     #[test]
     fn it_works() {
-        assert_eq!(2 + 2, 4);
+        libsay();
+        assert!(true);
     }
 }

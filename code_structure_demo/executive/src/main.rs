@@ -1,7 +1,9 @@
-/*-----------------------------------------------
+/*-----------------------------------------------------------
    code_structure_demo::executive::Executive
    - uses component_a and component_b
-*/
+
+   Jim Fawcett, https://JimFawcett.github.io, 23 Mar 2020   
+-----------------------------------------------------------*/
 
 use component_a::{get_instance};
 use component_b::{*};
