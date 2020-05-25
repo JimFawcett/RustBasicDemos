@@ -8,5 +8,5 @@ edition = "2018"
 
 [dependencies]
 display = { path = "../display" }
-#libc = "0.2.67"
+libc = "0.2.70"
 winapi = "0.3.0"

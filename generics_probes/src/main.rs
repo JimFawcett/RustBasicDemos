@@ -1,3 +1,9 @@
+/////////////////////////////////////////////////////////////
+// generic_probes - demo generic functions and structs     //
+//                                                         //
+// Jim Fawcett, https://JimFawcett.github.io, 25 May 2020  //
+/////////////////////////////////////////////////////////////
+
 use std::fmt::{*};
 use display::{*};
 

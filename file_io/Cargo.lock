@@ -9,8 +9,15 @@ name = "file_io"
 version = "0.1.0"
 dependencies = [
  "display",
+ "libc",
  "winapi",
 ]
+
+[[package]]
+name = "libc"
+version = "0.2.70"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3baa92041a6fec78c687fa0cc2b3fae8884f743d672cf551bed1d6dac6988d0f"
 
 [[package]]
 name = "winapi"

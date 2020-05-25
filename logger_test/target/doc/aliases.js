@@ -1,9 +1,0 @@
-var ALIASES = {};
-ALIASES["chrono"] = {};
-ALIASES["display"] = {};
-ALIASES["libc"] = {};
-ALIASES["logger"] = {};
-ALIASES["num_integer"] = {};
-ALIASES["num_traits"] = {};
-ALIASES["time"] = {};
-ALIASES["winapi"] = {};

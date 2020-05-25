@@ -13,26 +13,31 @@
    This crate contains some useful code, but also contains
    some experimental code - commented out - trying to hook 
    into libc.  I now know how much I don't know about that.
-
    I've got some good references and plan to work on this.
 */
-//use std::os::windows::fs;
 use std::env;
 use std::io::prelude::*;
 use std::fs::File;
 use std::path::Path;
 use std::io::Result;
 use display::{*};
-// extern crate winapi;
+
+//use std::os::windows::fs;
+// use winapi::*;
 // use libc::*;
 
-//extern "C" { fn is_open(f:File) -> bool; }
 // #[allow(dead_code)]
-// fn is_open(f:File) -> bool {
+// // extern "C" { 
+// //     fn is_open(f:File) -> bool;
+// // }
+// fn is_open(f:File) -> bool
+// {
 //     unsafe {
 //         f.descriptor >= 0
 //     }
 // }
+
+
 #[allow(dead_code)]
 fn open_file_for_write(file_name:&str) ->Result<File> {
     use std::fs::OpenOptions;

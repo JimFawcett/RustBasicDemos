@@ -1,3 +1,12 @@
+/////////////////////////////////////////////////////////////
+// lambda_probes - Demonstrate:                            //
+//  - lambdas                                              //
+//  - lambda capture                                       //
+//  - functions accepting lambdas                          //
+//                                                         //
+// Jim Fawcett, https://JimFawcett.github.io, 25 May 2020  //
+/////////////////////////////////////////////////////////////
+
 use display::{*};
 
 /*-----------------------------------------------
@@ -36,11 +45,11 @@ fn main() {
       print!("\n  val = {}, x = {}, val + x = {}", val, x, val + x) 
     };
     cl(7);
-    let put = putline;  // declaring funptr
+    let put = display::putline;  // declaring funptr
     put();
 
     let mut count = 0;
-    let mut counter = |offset:i32| {  // mutable closure
+    let mut counter = |offset:i32| {  // mutable capture
         count = count + 1;
         print!("\n  count = {}, sum = {}", 
           count, 
@@ -55,13 +64,13 @@ fn main() {
     let clst = ||{ true };  // invariant closure
     let clsf = ||{ false }; // invariant closure
 
-    let mut ans = consume(clst);
+    let mut ans = consume(clst);  // consuming closure
     answer(ans);
-    ans = consume(clsf);
+    ans = consume(clsf);          // consuming closure
     answer(ans);
-    ans = consume(always_true);
+    ans = consume(always_true);   // consuming function
     answer(ans);
-    ans = consume(always_false);
+    ans = consume(always_false);  // consuming function
     answer(ans);
     putlinen(2); 
 }

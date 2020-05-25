@@ -1,4 +1,8 @@
-// RustBasicDemos::iterator_probes
+/////////////////////////////////////////////////////////////
+// iterator_probes - iterate over various collections      //
+//                                                         //
+// Jim Fawcett, https://JimFawcett.github.io, 25 May 2020  //
+/////////////////////////////////////////////////////////////
 
 use display::{*};
 

@@ -6,10 +6,9 @@
 
 use std::io::prelude::*;
 use std::fs::File;
-//use std::path::Path;
-//use std::io::Result;
 use display::{*};
 
+/*-- configure result --*/
 fn demo_result<'a>(p: bool) -> Result<&'a str, &'a str> {
     print!("\n  value of input predicate is {}", p);
     if p {
@@ -31,8 +30,6 @@ fn demo_option<'a>(p:bool) -> Option<&'a str> {
 }
 
 #[allow(dead_code)]
-//use std::io::prelude;
-//use std::fs::File;
 fn open_file_for_read(file_name:&str) ->Result<File, std::io::Error> {
     use std::fs::OpenOptions;
     let rfile = OpenOptions::new()
@@ -54,11 +51,11 @@ fn read_file_to_string(mut f:File) -> Result<String, std::io::Error> {
   }
 }
 
-fn main() {
+fn main() -> Result<(), &'static str> {
 
-    sub_title("  -- demo Result --  ");
+    sub_title("  -- demo Option and Result --  ");
+
     shows("\n-- using match");
-
     let r = demo_result(true);
     match r {
         Ok(rslt) => print!("\n    result is {}", rslt),
@@ -69,8 +66,8 @@ fn main() {
         Ok(rslt) => print!("\n    result is {}", rslt),
         Err(rslt) => print!("\n    result is {}", rslt)
     }
-    shows("\n\n-- using expect");
 
+    shows("\n\n-- using expect");
     let r = demo_result(true).expect("predicate was false");
     print!("\n    result is {}", r);
     /////////////////////////////////////////////
@@ -91,8 +88,8 @@ fn main() {
         Some(rslt) => print!("\n    {}", rslt),
         None => print!("\n    sorry, nothing here")
     }
-    shows("\n\n--using unwrap");
 
+    shows("\n\n--using unwrap");
     let r = demo_option(true).unwrap();
     print!("\n    {}", r);
     /////////////////////////////////////////////
@@ -121,5 +118,14 @@ fn main() {
         print!("\n  failed to open file {:?}", file_name);
     }
 
+    shows("\n\n--error bubbling with ? operator");
+    print!("\n  {:?}", demo_result(true)?);
+    /////////////////////////////////////////////
+    // uncomment statement below to see error
+    // return from main, but no panic
+    //-------------------------------------------
+    // print!("\n  {:?}", demo_result(false)?);
+    
     print!("\n\n  That's all folks!\n\n");
+    Ok(())
 }

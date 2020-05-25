@@ -1,8 +1,16 @@
-// function_probes
+/////////////////////////////////////////////////////////////
+// function_probes - Demonstrates:                         //
+// - pass by value and reference                           //
+// - return by value and reference                         //
+// - lifetime annotation                                   //
+// - functions that accept other functions                 //
+// Jim Fawcett, https://JimFawcett.github.io, 25 May 2020  //
+/////////////////////////////////////////////////////////////
 
 #[allow(unused_imports)]
 use display::*;
 use std::fmt::Debug;
+
 /////////////////////////////////////////////////
 // Demo functions
 
@@ -101,8 +109,8 @@ fn lifetime(rs:&String) -> String {
   show("\n  s = ",&s);  
   show_type(&s);
   shows("\n  returning string s by value (a move)");
-  // let put = |st|{ print!("{}", st); };
-  // put("\n  returning s by value"); 
+  let put = |st|{ print!("{}", st); };
+  put("\n  returning s by value"); 
   s  // return by value moves string to destination
 }
 // /*-----------------------------------------------

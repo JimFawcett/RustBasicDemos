@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["OpenMode",""]],"fn":[["main",""],["open_file","--- attempt to open file with name str"]],"struct":[["Logger",""]]});

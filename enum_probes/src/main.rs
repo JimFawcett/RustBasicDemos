@@ -1,4 +1,8 @@
-// enum_probes::main.rs
+/////////////////////////////////////////////////////////////
+// enum_probes::main.rs - demonstrate enum structure       //
+//                                                         //
+// Jim Fawcett, https://JimFawcett.github.com, 25 May 2020 //
+/////////////////////////////////////////////////////////////
 
 use display::{*};
 use std::fmt::{Debug};
